@@ -1,15 +1,17 @@
 const client = require('../db/db_config');
 
-// ROOM MODEL
 /**
  * @typedef {object} Room
  * @description This is the room model
- * @property {number} id_room - The id of the room
+ * @property {number} room_id - The id of the room
  * @property {string} name - The name of the room
  * @property {number} number - The number of the room
  * @property {number} floor - The floor number of the room
+ * @property {number} bed_type_id - The bed type id of the room
  * @property {string} bed_type - enum:Twin,Double,Double Comfort - The type of bed in the room
- * @property {string} status - enum:Available,Occupied,Cleaning,Repairing - The status of the room
+ * @property {number} room_status_id - The status id of the room
+ * @property {string} current_status - enum:Available,Occupied,Cleaning,Repairing - The current status of the room
+ * @property {number} room_type_id - The type id of the room
  * @property {string} type - enum:Standard,Extra Comfort,Business,Deluxe - The type of the room
  */
 

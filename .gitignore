@@ -1,9 +1,9 @@
 # ignore all node_modules folders and nested folders & files
-node_modules
+**/node_modules
 # ignore the specific VS Code configuration parameters
 .vscode
 # ignore the development environment variables (if any)
-.env
+api/.env
 # ignore the MacOS specific files
 .DS_Store
 # ignore the Windows specific files
@@ -11,6 +11,7 @@ Thumbs.db
 # ignore the Linux specific files
 lost+found
 
+**/db
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -32,17 +33,17 @@ target/
 .sts4-cache
 
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbdist/
+**/.nb-gradle/
+**/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
 # Logs
-logs
+**/logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -50,8 +51,8 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-dist
-dist-ssr
+**/dist
+**/dist-ssr
 *.local
 
 # Editor directories and files

@@ -2,7 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const client = require('./db_config');
+const client = require('./db/db_config');
 
 const corsOptions = {
   origin: ['http://localhost:3000'],

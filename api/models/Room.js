@@ -1,4 +1,4 @@
-const client = require('../db_config');
+const client = require('../db/db_config');
 
 // ROOM MODEL
 

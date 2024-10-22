@@ -11,7 +11,6 @@ Thumbs.db
 # ignore the Linux specific files
 lost+found
 
-**/db
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

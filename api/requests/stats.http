@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8080/stats
+
+### Get rooms stats
+GET {{baseUrl}}/rooms

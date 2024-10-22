@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vinci Hotel API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    main {
+      margin: 20px 0;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Welcome to Vinci Hotel API</h1>
+</header>
+<main>
+  <section>
+    <h2>API Documentation</h2>
+    <p>Documentation is available at <a href="http://localhost:8080/api-docs/" target="_blank">http://localhost:8080/api-docs/</a>
+    </p>
+  </section>
+  <section>
+    <h2>Available Endpoints</h2>
+    <h3> - Rooms</h3>
+    <ul>
+      <li><code>GET <a href="http://localhost:8080/rooms" target="_blank">/rooms</a></code> -
+        Retrieve all rooms
+      </li>
+    </ul>
+    <h3> - Reservations</h3>
+    <ul>
+      <li><code>GET <a href="http://localhost:8080/reservations" target="_blank">/reservations</a></code> -
+        Retrieve all reservations
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h2>About</h2>
+    <p>This API provides endpoints to manage a hotel.</p>
+  </section>
+</main>
+<footer>
+  <p>&copy; 2023 Vinci Hotel API. All rights reserved.</p>
+</footer>
+</body>
+</html>

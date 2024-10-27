@@ -1,3 +1,4 @@
+-- VIEWS
 SET SEARCH_PATH = project;
 
 DROP VIEW IF EXISTS project.rooms_vw CASCADE;
@@ -58,18 +59,27 @@ SELECT re.reservation_id,
 FROM project.reservations re
          INNER JOIN project.clients c ON re.client = c.client_id
          INNER JOIN project.rooms_vw ro ON re.room = ro.room_id
-         INNER JOIN project.partners p ON p.partner_id = re.partner
-         INNER JOIN project.payment_types pt ON pt.payment_type_id = re.payment_type
+         LEFT OUTER JOIN project.partners p ON p.partner_id = re.partner
+         LEFT OUTER JOIN project.payment_types pt ON pt.payment_type_id = re.payment_type
          LEFT OUTER JOIN project.reservation_services rs ON re.reservation_id = rs.reservation
          LEFT OUTER JOIN project.services s ON rs.service = s.service_id
-GROUP BY re.reservation_id, re.checked_in, re.checked_out, re.total_price, re.arrival_date,
-         re.departure_date,
-         re.is_paid,
-         c.client_id, c.first_name, c.last_name, c.email, c.phone_number, c.birthdate, c.country,
-         ro.room_id, ro.name, ro.number, ro.floor, ro.bed_type_id, ro.bed_type, ro.room_type_id,
-         ro.type,
-         ro.room_status_id, ro.current_status,
-         p.partner_id, p.name,
-         pt.payment_type_id, pt.name,
-         s.service_id, s.name
 ORDER BY arrival_date;
+
+DROP VIEW IF EXISTS project.reservations_grouped_vw CASCADE;
+CREATE VIEW project.reservations_grouped_vw AS
+SELECT reservation_id,
+       client_id,
+       room_id,
+       room_name,
+       room_status,
+       arrival_date,
+       departure_date,
+       checked_in,
+       checked_out,
+       room_floor,
+       room_number,
+       STRING_AGG(service_name, ', ') AS services
+FROM project.reservations_vw
+GROUP BY reservation_id, client_id, room_id, room_name, room_status, arrival_date, departure_date, checked_in,
+         checked_out, room_floor, room_number
+ORDER BY room_floor, room_number;

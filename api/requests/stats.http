@@ -4,5 +4,5 @@
 GET {{baseUrl}}/rooms
 
 ### Get rooms stats for a specific date
-GET {{baseUrl}}/rooms/2021-01-01
+GET {{baseUrl}}/rooms/2024-11-25
 

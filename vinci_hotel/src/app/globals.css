@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-gray-900 text-gray-100
+  }
+}
+.container-main {
+  @apply mx-auto w-full max-w-[1200px] px-6 bg-[#0C1922]
+}
+.container {
+  @apply mx-auto w-full max-w-[1200px] px-6
+}
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

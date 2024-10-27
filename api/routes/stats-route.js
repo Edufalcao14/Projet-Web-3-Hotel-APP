@@ -17,7 +17,7 @@ router.get('/rooms', async function (req, res) {
  * GET /stats/rooms/:date
  * @summary Returns statistics about rooms for a specific date
  * @tags stats
- * @param {string} date.path - The date for which the statistics are requested - eg: 2024-01-01
+ * @param {string} date.path - The date for which the statistics are requested - eg: 2024-11-25
  * @return {RoomsStats} 200 - Statistics about rooms are returned - application/json
  * @return {object} 400 - Invalid date format - application/json
  */

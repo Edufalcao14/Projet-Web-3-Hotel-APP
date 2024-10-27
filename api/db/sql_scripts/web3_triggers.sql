@@ -18,7 +18,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER insert_reservation
+DROP TRIGGER IF EXISTS insert_reservation ON project.reservations;
+CREATE TRIGGER insert_reservation
     BEFORE INSERT
     ON project.reservations
     FOR EACH ROW
@@ -57,7 +58,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER reservation_status_update
+DROP TRIGGER IF EXISTS reservation_status_update ON project.reservations;
+CREATE TRIGGER reservation_status_update
     AFTER INSERT OR UPDATE OF checked_in, checked_out
     ON project.reservations
     FOR EACH ROW
@@ -117,7 +119,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER room_status_update
+DROP TRIGGER IF EXISTS room_status_update ON project.rooms;
+CREATE TRIGGER room_status_update
     BEFORE UPDATE OF current_status
     ON project.rooms
     FOR EACH ROW

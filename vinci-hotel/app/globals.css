@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container-main {
+  @apply mx-auto w-full max-w-[1200px] px-6 bg-[#0C1922]
+}
+.container {
+  @apply mx-auto w-full max-w-[1200px] px-6
+}

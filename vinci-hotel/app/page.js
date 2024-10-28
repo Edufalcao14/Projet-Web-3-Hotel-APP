@@ -55,7 +55,7 @@ export default function Home() {
           )}
         </div>
       </div>
-      <div className="bg-hotel-image bg-no-repeat bg-cover h-full w-full flex-1 min-h-screen hidden lg:block"></div>
+      <div className="bg-hotel-image bg-no-repeat bg-cover h-full w-full max-w-[500px] min-h-screen hidden lg:block lg:max-w-[600px]"></div>  
     </section>
   );
 }

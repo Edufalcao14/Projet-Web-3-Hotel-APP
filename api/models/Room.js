@@ -15,6 +15,14 @@ const client = require('../db/db_config');
  * @property {string} type - enum:Standard,Extra Comfort,Business,Deluxe - The type of the room
  */
 
+/**
+ * @typedef {object} Rooms
+ * @description This is the rooms model
+ * @property {Array<Room>} available - The available rooms
+ * @property {Array<Room>} reserved - The reserved rooms
+ * @property {Array<Room>} occupied - The occupied rooms
+ */
+
 async function getAllRooms() {
   try {
     const stmt = await client.query('SELECT * FROM project.rooms_vw;');

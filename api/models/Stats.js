@@ -15,14 +15,6 @@ const client = require('../db/db_config');
  */
 
 /**
- * @typedef {object} Rooms
- * @description This is the rooms model
- * @property {Array<Room>} available - The available rooms
- * @property {Array<Room>} reserved - The reserved rooms
- * @property {Array<Room>} occupied - The occupied rooms
- */
-
-/**
  * @typedef {object} RoomsStats
  * @description This is the rooms statistics model
  * @property {number} totalAvailableRooms - The total number of available rooms

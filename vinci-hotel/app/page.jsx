@@ -5,7 +5,7 @@ import { MdFreeBreakfast } from "react-icons/md";
 import { FaCalendarDays } from "react-icons/fa6";
 import { FaCoins } from "react-icons/fa";
 import { FaBed } from "react-icons/fa";
-import NavItem from "../components/navItem";
+import NavItem from "../components/navItems/navItems";
 
 
 const navItemsData = [
@@ -21,7 +21,7 @@ const navItemsData = [
   },
   {
     name: "CHAMBRES",
-    url: "/chambres",
+    url: "/rooms",
     icon: <FaBed size={35} />,
   },
   {

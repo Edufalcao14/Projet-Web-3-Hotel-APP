@@ -8,6 +8,7 @@ import { FaCalendarDays } from "react-icons/fa6";
 import { FaCoins, FaBed } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import NavItem from "../navItems/navItems";
+import Link from "next/link";
 
 
 const navItemsData = [
@@ -58,12 +59,15 @@ const Sidebar = ({ children }) => {
             isOpen ? "translate-x-0" : "-translate-x-full"
           } transition-transform duration-300 md:static md:translate-x-0`}
         >
+          <Link href="/">
           <Image
             src="/images/logo-small.svg"
             width={100}
             height={100}
             alt="logo"
           />
+          </Link>
+          
           <nav className="justify-center items-center mt-6 text-center font-mono text-xl">
             {navItemsData.map((item, index) => (
               <NavItem

@@ -43,7 +43,7 @@ const Sidebar = ({ children }) => {
 
   if (!isHome) {
     return (
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap z-0">
         {/* Menu icon for small screens */}
         <button
           className="md:hidden p-4 text-[#192434] cursor-pointer"

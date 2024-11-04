@@ -5,7 +5,7 @@ import { MdFreeBreakfast } from "react-icons/md";
 import { FaCalendarDays } from "react-icons/fa6";
 import { FaCoins } from "react-icons/fa";
 import { FaBed } from "react-icons/fa";
-import NavItem from "../components/navItem";
+import NavItem from "../components/navItems/navItems";
 
 
 const navItemsData = [
@@ -21,7 +21,7 @@ const navItemsData = [
   },
   {
     name: "CHAMBRES",
-    url: "/chambres",
+    url: "/rooms",
     icon: <FaBed size={35} />,
   },
   {
@@ -55,7 +55,7 @@ export default function Home() {
           )}
         </div>
       </div>
-      <div className="bg-hotel-image bg-no-repeat bg-cover h-full w-full flex-1 min-h-screen hidden lg:block"></div>
+      <div className="bg-hotel-image bg-no-repeat bg-cover h-full w-full max-w-[500px] min-h-screen hidden lg:block lg:max-w-[600px]"></div>  
     </section>
   );
 }

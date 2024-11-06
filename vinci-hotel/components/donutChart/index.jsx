@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { AgCharts } from "ag-charts-react";  // Vérifiez que ce chemin est correct
+import { AgCharts } from "ag-charts-react";
 
-const DonutChart = ({ data, title }) => {
+const DonutChart = ({ data, title, colors }) => {
   const [options, setOptions] = useState({
     data: [],
     title: {
@@ -13,11 +13,12 @@ const DonutChart = ({ data, title }) => {
         calloutLabelKey: "asset",
         angleKey: "amount",
         innerRadiusRatio: 0.7,
+        fills: colors, // Set initial colors here
       },
     ],
   });
 
-  // Mettre à jour les options quand `data` ou `title` changent
+  // Update options when `data`, `title`, or `colors` change
   useEffect(() => {
     setOptions((prevOptions) => ({
       ...prevOptions,
@@ -25,8 +26,14 @@ const DonutChart = ({ data, title }) => {
       title: {
         text: title,
       },
+      series: [
+        {
+          ...prevOptions.series[0],
+          fills: colors, // Update colors dynamically
+        },
+      ],
     }));
-  }, [data, title]);
+  }, [data, title, colors]);
 
   return <AgCharts options={options} />;
 };

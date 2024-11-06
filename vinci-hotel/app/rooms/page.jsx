@@ -13,7 +13,7 @@ export default function Rooms() {
   return (
       <div>
         <h1>Rooms</h1>
-        <DonutChart data={donutChartData} title="Portfolio Distribution" />
+        <DonutChart data={donutChartData} title="Portfolio Distribution" colors={["#98D2EB", "#77625C" , "#c1121f" , "#606c38"]} />
       </div>
   );
 }

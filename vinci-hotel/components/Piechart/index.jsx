@@ -3,11 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { AgCharts } from "ag-charts-react";
 
-const PieChart = ({
-  data,
-  title ,
-  colors,
-}) => {
+const PieChart = ({ data, title, colors }) => {
   const [options, setOptions] = useState({});
 
   useEffect(() => {
@@ -22,9 +18,8 @@ const PieChart = ({
           sectorLabelKey: "amount",
           fills: colors,
           sectorLabel: {
-            color: "white",
             fontWeight: "bold",
-            formatter: ({ value }) => `$${(value / 1000).toFixed(0)}K`,
+            formatter: ({ value }) => `${value} réservations`,
           },
         },
       ],

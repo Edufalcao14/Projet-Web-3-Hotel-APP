@@ -3,27 +3,21 @@
 import React, { useState, useEffect } from "react";
 import { AgCharts } from "ag-charts-react";
 
-const BarChart = ({
-  data = [],
-  title,
-  xKey,
-  yKey = [],
-  colors,
-}) => {
+const BarChart = ({ data = [], title, xKey, yKey = [], colors }) => {
   const [options, setOptions] = useState({});
-
+  
   useEffect(() => {
-    const series = yKey.map((key, index) => ({
+    const series = yKey.map((key , index) => ({
       type: "bar",
-      xKey,
+      xKey: xKey,
       yKey: key,
-      fills: colors[index],
+      fill: colors[index],
     }));
-
     setOptions({
       data,
       title: { text: title },
       series,
+      legend: { position: "bottom" }, // Ajoute une légende en bas
     });
   }, [data, title, xKey, yKey, colors]);
 

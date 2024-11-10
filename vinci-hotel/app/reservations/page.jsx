@@ -72,13 +72,7 @@ export default function ReservationsPage() {
     { headerName: "Status", field: "status", sortable: true, filter: true },
   ];
 
-  const colors = {
-    Booking: "#00008B", // Bleu foncé
-    Expedia: "#FFD700", // Jaune
-    "Hotel Beds": "#87CEFA", // Bleu clair
-    "Hotel Vinci": "#006400", // Vert foncé
-    Airbnb: "#FF0000", // Rouge
-  };
+  const colors = ["#044879", "#f7b200", "#2ebbce","#025864","#cb584e"];
 
   const [barChartData, setBarChartData] = useState([]);
   const [selectedRange, setSelectedRange] = useState("7jours");
@@ -121,17 +115,19 @@ export default function ReservationsPage() {
   return (
     <div className="flex flex-col md:flex-row h-screen">
       <div className="flex-grow p-4 md:p-8 bg-gray-100 overflow-y-auto">
-        <h1 className="text-3xl font-bold text-center mb-8">Tableau de Bord - Réservations</h1>
+        <div className="">
+        <h1 className="text-3xl text-left mb-8 text-[#5A5555]">Tableau de Bord - Réservations </h1>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8 ">
-          <div className="bg-white p-6 shadow-lg rounded-lg bg-background-image bg-no-repeat bg-cover ">
-            <h2 className="text-xl font-semibold mb-4">Réservations</h2>
-            <DonutChart data={donutChartData} title="Réservations" colors={Object.values(colors)} />
+          <div className="bg-white p-6 shadow-lg rounded-lg bg-lighBackground-image bg-no-repeat bg-cover ">
+            <h2 className="text-xl text-white font-sans font-medium mb-4">Réservations</h2>
+            <DonutChart data={donutChartData} title="Réservations" colors={colors} textColor={"#ffffff"}/>
           </div>
 
           <div className="col-span-1 lg:col-span-2 bg-white p-6 shadow-lg rounded-lg">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Prévisions des Réservations</h2>
+              <h2 className="text-xl font-medium text-[#5A5555]">Prévisions des Réservations</h2>
               <select
                 value={selectedRange}
                 onChange={(e) => filterData(e.target.value)}
@@ -154,15 +150,15 @@ export default function ReservationsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="col-span-1 lg:col-span-2 bg-white p-6 shadow-lg rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Liste des Réservations</h2>
+            <h2 className="text-xl font-medium mb-4 text-[#5A5555]">Liste des Réservations</h2>
             <div className="ag-theme-alpine" style={{ height: 300, width: "100%" }}>
               <AgGridReact rowData={rowData} columnDefs={columnDefs} pagination={true} />
             </div>
           </div>
 
           <div className="bg-white p-6 shadow-lg rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Répartition des Statuts</h2>
-            <PieChart data={pieChartData} title="Statuts des Réservations" colors={Object.values(colors)} />
+            <h2 className="text-xl font-medium text-[#5A5555] mb-4">Répartition des Statuts</h2>
+            <PieChart data={pieChartData} title="Statuts des Réservations" colors={colors} />
           </div>
         </div>
       </div>

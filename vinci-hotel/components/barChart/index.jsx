@@ -5,16 +5,14 @@ import { AgCharts } from "ag-charts-react";
 
 const BarChart = ({ data = [], title, xKey, yKey = [], colors }) => {
   const [options, setOptions] = useState({});
-
+  
   useEffect(() => {
-    const series = yKey.map((key) => ({
+    const series = yKey.map((key , index) => ({
       type: "bar",
       xKey: xKey,
       yKey: key,
-      fills: [colors[key]], // Associe chaque clé à la couleur correspondante
-      strokes: [colors[key]], // Correspondance pour les contours
+      fill: colors[index],
     }));
-
     setOptions({
       data,
       title: { text: title },

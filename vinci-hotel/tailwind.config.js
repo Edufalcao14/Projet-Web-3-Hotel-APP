@@ -16,6 +16,7 @@ module.exports = {
       backgroundImage: {
         'hotel-image': "url('/images/hotel-img.png')",
         'background-image': "url('/images/background.png')",
+        'light-background-image': "url('/images/light-background.png')",
       },
       boxShadow: {
         big: '0px 0px 68px 7px rgba(255, 255, 255, 0.4)', 

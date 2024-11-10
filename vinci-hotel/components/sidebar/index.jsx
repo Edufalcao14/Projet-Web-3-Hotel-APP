@@ -86,7 +86,7 @@ const Sidebar = ({ children }) => {
         </div>
 
         {/* Main content */}
-        <div className="flex-grow">{children}</div>
+        <div className="flex-grow ">{children}</div>
       </div>
     );
   } else {

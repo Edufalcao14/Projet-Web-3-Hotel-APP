@@ -4,6 +4,7 @@ import { AgCharts } from "ag-charts-react";
 const DonutChart = ({ data, title, colors }) => {
   const [options, setOptions] = useState({
     data: [],
+    background: { fill: "transparent" },
     title: {
       text: title,
     },

@@ -123,8 +123,8 @@ export default function ReservationsPage() {
       <div className="flex-grow p-4 md:p-8 bg-gray-100 overflow-y-auto">
         <h1 className="text-3xl font-bold text-center mb-8">Tableau de Bord - Réservations</h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white p-6 shadow-lg rounded-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8 ">
+          <div className="bg-white p-6 shadow-lg rounded-lg bg-background-image bg-no-repeat bg-cover ">
             <h2 className="text-xl font-semibold mb-4">Réservations</h2>
             <DonutChart data={donutChartData} title="Réservations" colors={Object.values(colors)} />
           </div>

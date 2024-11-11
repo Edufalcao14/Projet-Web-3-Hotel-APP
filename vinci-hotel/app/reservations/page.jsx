@@ -148,7 +148,7 @@ export default function ReservationsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 ">
           <div className="col-span-1 lg:col-span-2 bg-white p-6 shadow-lg rounded-lg">
             <h2 className="text-xl font-medium mb-4 text-[#5A5555]">Liste des Réservations</h2>
             <div className="ag-theme-alpine" style={{ height: 300, width: "100%" }}>
@@ -158,7 +158,7 @@ export default function ReservationsPage() {
 
           <div className="bg-white p-6 shadow-lg rounded-lg">
             <h2 className="text-xl font-medium text-[#5A5555] mb-4">Répartition des Statuts</h2>
-            <PieChart data={pieChartData} title="Statuts des Réservations" colors={colors} />
+            <PieChart data={pieChartData} title="Statuts des Réservations" colors={colors} width={400} height={300} />
           </div>
         </div>
       </div>

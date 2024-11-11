@@ -10,7 +10,6 @@ import { IoIosClose } from "react-icons/io";
 import NavItem from "../navItems/navItems";
 import Link from "next/link";
 
-
 const navItemsData = [
   {
     name: "RESERVATIONS",
@@ -43,10 +42,10 @@ const Sidebar = ({ children }) => {
 
   if (!isHome) {
     return (
-      <div className="flex flex-wrap z-0">
-        {/* Menu icon for small screens */}
+      <div className="flex">
+        {/* Toggle Button positioned at the top left for small and medium screens */}
         <button
-          className="md:hidden p-4 text-[#192434] cursor-pointer"
+          className="fixed top-4 left-4 p-3 text-[#192434] bg-white rounded-full shadow-md cursor-pointer sm:block md:block lg:hidden"
           onClick={toggleSidebar}
           aria-label="Toggle menu"
         >
@@ -57,36 +56,30 @@ const Sidebar = ({ children }) => {
         <div
           className={`fixed top-0 left-0 h-screen w-[200px] bg-[#192434] flex flex-col items-center pt-6 transform ${
             isOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 md:static md:translate-x-0`}
+          } transition-transform duration-300 md:static md:translate-x-0 lg:fixed`}
+          style={{ zIndex: 1000 }}
         >
           <Link href="/">
-          <Image
-            src="/images/logo-small.svg"
-            width={100}
-            height={100}
-            alt="logo"
-          />
+            <Image src="/images/logo-small.svg" width={100} height={100} alt="logo" />
           </Link>
-          
-          <nav className="justify-center items-center mt-6 text-center font-mono text-xl">
+
+          <nav className="justify-center items-center mt-6 text-center font-mono text-xl text-white">
             {navItemsData.map((item, index) => (
-              <NavItem
-                key={item.name + index}
-                name={item.name}
-                url={item.url}
-                icon={item.icon}
-              />
+              <NavItem key={item.name + index} name={item.name} url={item.url} icon={item.icon} />
             ))}
-            <div className={`flex flex-col items-center justify-center text-white hover:text-[#C18E50] cursor-pointer ${isOpen ? "block" : "hidden"}`}  onClick={toggleSidebar}>
-            <IoIosClose size={40} />
-            <p>CLOSE</p>
+            {/* Close Button for small and medium screens */}
+            <div
+              className="sm:flex md:flex lg:hidden flex-col items-center justify-center hover:text-[#C18E50] cursor-pointer"
+              onClick={toggleSidebar}
+            >
+              <IoIosClose size={40} />
+              <p>CLOSE</p>
             </div>
-            
           </nav>
         </div>
 
-        {/* Main content */}
-        <div className="flex-grow ">{children}</div>
+        {/* Content area with adjusted margin for desktop view */}
+        <div className="flex-grow ml-[1OOpx] lg:ml-[200px]">{children}</div>
       </div>
     );
   } else {

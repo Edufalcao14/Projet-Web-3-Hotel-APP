@@ -36,7 +36,7 @@ export default function Home() {
   
   return (
     <section className="bg-background-image bg-no-repeat bg-cover flex flex-row min-h-screen">
-      <div className="container flex flex-col justify-center items-center px-24 sm:px-36">
+      <div className="container flex flex-col justify-center items-center px-24 sm:px-36 ">
         <Image src="/images/logo-big.svg" width={200} height={200} alt="logo" />
         <p className="font-mono mt-6 text-center text-2xl leading-relaxed text-white max-w-5xl">
           Bienvenue sur votre espace d’analyse dédié à l’Hôtel Vinci. 
@@ -55,7 +55,7 @@ export default function Home() {
           )}
         </div>
       </div>
-      <div className="bg-hotel-image bg-no-repeat bg-cover h-full w-full max-w-[500px] min-h-screen hidden lg:block lg:max-w-[600px]"></div>  
+      <div className="bg-hotel-image bg-no-repeat justif bg-cover h-full w-full max-w-[500px] min-h-screen hidden lg:block lg:max-w-[1500px]"></div>  
     </section>
   );
 }

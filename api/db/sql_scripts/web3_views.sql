@@ -69,17 +69,29 @@ DROP VIEW IF EXISTS project.reservations_grouped_vw CASCADE;
 CREATE VIEW project.reservations_grouped_vw AS
 SELECT reservation_id,
        client_id,
+       client_first_name,
+       client_last_name,
+       client_email,
+       client_phone_number,
        room_id,
        room_name,
+       room_floor,
+       room_number,
+       room_type,
        room_status,
+       partner_id,
+       partner_name,
+       total_price,
+       is_paid,
+       payment_type_id,
+       payment_type_name,
        arrival_date,
        departure_date,
        checked_in,
        checked_out,
-       room_floor,
-       room_number,
        STRING_AGG(service_name, ', ') AS services
 FROM project.reservations_vw
-GROUP BY reservation_id, client_id, room_id, room_name, room_status, arrival_date, departure_date, checked_in,
-         checked_out, room_floor, room_number
+GROUP BY reservation_id, client_id, client_first_name, client_last_name, client_email, client_phone_number, room_id,
+         room_name, room_floor, room_number, room_type, room_status, partner_id, partner_name, total_price, is_paid,
+         payment_type_id, payment_type_name, arrival_date, departure_date, checked_in, checked_out
 ORDER BY room_floor, room_number;

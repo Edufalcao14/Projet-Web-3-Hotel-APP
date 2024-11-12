@@ -1,6 +1,6 @@
-const port = 3000
+const APIPort = 8080
 
-const baseUrl = `http://localhost:${port}`
+const baseUrl = `http://localhost:${APIPort}`
 
 const roomsUrl = `${baseUrl}/rooms`
 const reservationsUrl = `${baseUrl}/reservations`

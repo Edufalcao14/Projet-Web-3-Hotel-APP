@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { AgCharts } from "ag-charts-react";
+import React, {useEffect, useState} from "react";
+import {AgCharts} from "ag-charts-react";
 
 const PieChart = ({ data, title, colors, width = 600, height = 400 }) => {
   const [options, setOptions] = useState({});
@@ -20,14 +20,10 @@ const PieChart = ({ data, title, colors, width = 600, height = 400 }) => {
           calloutLabelKey: "asset",
           sectorLabelKey: "amount",
           fills: colors,
-          sectorLabel: {
-            fontWeight: "bold",
-            formatter: ({ value }) => `${value} réservations`,
-          },
         },
       ],
     });
-  }, [data, title, colors, width, height]); // Include width and height here
+  }, [data, title, colors, width, height]);
 
   return <AgCharts options={options} />;
 };

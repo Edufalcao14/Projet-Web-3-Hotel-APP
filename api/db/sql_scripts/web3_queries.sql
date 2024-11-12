@@ -35,7 +35,9 @@ WITH booked_rooms AS (SELECT room
                       FROM project.reservations
                       WHERE (arrival_date < CURRENT_DATE AND departure_date > CURRENT_DATE)
                       GROUP BY room),
-     available_rooms AS (SELECT rt.room_type_id, rt.name AS room_type_name, COUNT(r.room_id) AS total_rooms
+     available_rooms AS (SELECT rt.room_type_id,
+                                rt.name          AS room_type_name,
+                                COUNT(r.room_id) AS total_rooms
                          FROM project.rooms r
                                   INNER JOIN project.room_types rt ON r.type = rt.room_type_id
                          GROUP BY rt.room_type_id, rt.name)
@@ -97,80 +99,86 @@ GROUP BY partner_name;
 -- Reservations stats
 SELECT COUNT(reservation_id) FILTER (WHERE checked_in = FALSE AND checked_out = FALSE) AS awaiting,
        COUNT(*) FILTER (WHERE checked_in = TRUE AND checked_out = FALSE)               AS in_home,
-       COUNT(*) FILTER (WHERE checked_in = TRUE AND checked_out = TRUE)                AS checked_out,
+       COUNT(*)
+       FILTER (WHERE checked_in = TRUE AND checked_out = TRUE)                         AS checked_out,
        COUNT(reservation_id)                                                           AS total
 FROM project.reservations
 WHERE CURRENT_DATE BETWEEN arrival_date AND departure_date;
 
 -- Current month revenue prediction
 SELECT SUM(total_price) AS revenue_prediction
-FROM reservations_grouped_vw
+FROM project.reservations_grouped_vw
 WHERE (DATE_PART('month', departure_date) = DATE_PART('month', CURRENT_DATE))
   AND (DATE_PART('year', departure_date) = DATE_PART('year', CURRENT_DATE));
 
 -- Current month revenue (already paid)
 SELECT SUM(total_price) AS revenue_paid
-FROM reservations_grouped_vw
+FROM project.reservations_grouped_vw
 WHERE (DATE_PART('month', departure_date) = DATE_PART('month', CURRENT_DATE))
   AND (DATE_PART('year', departure_date) = DATE_PART('year', CURRENT_DATE))
   AND is_paid = TRUE;
 
--- Current month revenue (not yet paid)
-SELECT SUM(total_price) AS revenue_not_paid
-FROM reservations_grouped_vw
+-- Current month revenue (unpaid)
+SELECT SUM(total_price) AS revenue_unpaid
+FROM project.reservations_grouped_vw
 WHERE (DATE_PART('month', departure_date) = DATE_PART('month', CURRENT_DATE))
   AND (DATE_PART('year', departure_date) = DATE_PART('year', CURRENT_DATE))
   AND is_paid = FALSE;
 
 -- Revenue (last days)
 SELECT SUM(total_price) AS revenue
-FROM reservations_grouped_vw
+FROM project.reservations_grouped_vw
 WHERE (departure_date BETWEEN CURRENT_DATE - 30 AND CURRENT_DATE)
   AND is_paid = TRUE;
 
 -- Revenue by payment type (last days)
-SELECT payment_type_name AS payment_type, SUM(total_price) AS revenue, COUNT(reservation_id) AS total
-FROM reservations_grouped_vw
+SELECT payment_type_name     AS payment_type,
+       SUM(total_price)      AS revenue,
+       COUNT(reservation_id) AS total
+FROM project.reservations_grouped_vw
 WHERE (departure_date BETWEEN CURRENT_DATE - 30 AND CURRENT_DATE)
   AND is_paid = TRUE
 GROUP BY payment_type_name;
 
 -- Revenue by card (last days)
 SELECT SUM(total_price) AS revenue, COUNT(reservation_id) AS total
-FROM reservations_grouped_vw
+FROM project.reservations_grouped_vw
 WHERE (departure_date BETWEEN CURRENT_DATE - 30 AND CURRENT_DATE)
-  AND (is_paid = TRUE) AND payment_type_name != 'Cash';
+  AND (is_paid = TRUE)
+  AND payment_type_name != 'Cash';
 
 -- Revenue by cash (last days)
 SELECT SUM(total_price) AS revenue, COUNT(reservation_id) AS total
-FROM reservations_grouped_vw
+FROM project.reservations_grouped_vw
 WHERE (departure_date BETWEEN CURRENT_DATE - 30 AND CURRENT_DATE)
-  AND (is_paid = TRUE) AND payment_type_name = 'Cash';
+  AND (is_paid = TRUE)
+  AND payment_type_name = 'Cash';
 
 -- Revenue by date (last days)
 SELECT departure_date AS date, SUM(total_price) AS revenue
-FROM reservations_grouped_vw
+FROM project.reservations_grouped_vw
 WHERE (departure_date BETWEEN CURRENT_DATE - 30 AND CURRENT_DATE)
   AND is_paid = TRUE
 GROUP BY departure_date
 ORDER BY departure_date;
 
 -- Month revenue by room type
-SELECT room_type, SUM(total_price) AS revenue, COUNT(reservation_id) AS count
-FROM reservations_grouped_vw
-WHERE (DATE_PART('month', departure_date) = 11 AND DATE_PART('year', departure_date) = 2024)
-  AND is_paid = TRUE
-GROUP BY room_type;
+SELECT rt.name as room_type, SUM(r.total_price) AS revenue, COUNT(r.reservation_id) AS count
+FROM project.room_types rt
+         LEFT OUTER JOIN project.reservations_grouped_vw r ON rt.name = r.room_type
+WHERE (DATE_PART('month', r.departure_date) = 11 AND DATE_PART('year', r.departure_date) = 2024)
+  AND r.is_paid = TRUE
+GROUP BY rt.name;
 
 -- Services count (today)
 SELECT COALESCE(service_name, 'None') AS service, COUNT(reservation_id) AS count
-FROM reservations_vw
+FROM project.reservations_vw
 WHERE CURRENT_DATE BETWEEN arrival_date AND departure_date
 GROUP BY service_name;
 
 -- Services revenue (last days)
 WITH nbr_services AS (SELECT service_id, COUNT(reservation_id) AS count
-                      FROM reservations_vw
+                      FROM project.reservations_vw
                       WHERE (arrival_date > CURRENT_DATE - 7)
                         AND (arrival_date <= CURRENT_DATE)
                       GROUP BY service_id)

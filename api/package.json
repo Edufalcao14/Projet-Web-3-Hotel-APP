@@ -1,6 +1,6 @@
 {
   "name": "vinci_hotel_api",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "start": "node app.js",
@@ -26,5 +26,5 @@
     "pg": "^8.13.0",
     "prettier-airbnb-config": "^1.0.0"
   },
-  "author": "Ciborowski Dawid, Demir Ahmet Kusay, Simonis Tom"
+  "author": "Ciborowski Dawid"
 }

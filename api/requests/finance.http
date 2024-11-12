@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:8080/finance
+
+### Get prediction
+GET {{baseUrl}}/prediction/2024-11-25
+
+### Get revenue
+GET {{baseUrl}}/revenue/30
+
+### Get revenue stats
+GET {{baseUrl}}/revenue/stats/30
+
+### Get revenue stats for the year
+GET {{baseUrl}}/revenue/stats/year/2024

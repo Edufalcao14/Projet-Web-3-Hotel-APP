@@ -60,14 +60,26 @@
       <li><code>GET <a href="http://localhost:8080/rooms" target="_blank">/rooms</a></code> -
         Retrieve all rooms
       </li>
-    </ul>
-    <h3> - Statistics</h3>
-    <ul>
-      <li><code>GET <a href="http://localhost:8080/stats/rooms"
-                       target="_blank">/stats/rooms</a></code> - Retrieve today's rooms statistics
+      <li><code>GET <a href="http://localhost:8080/rooms/stats"
+                       target="_blank">/rooms/stats</a></code> - Retrieve today's room statistics
       </li>
-      <li><code>GET <a href="http://localhost:8080/stats/rooms/2024-11-25" target="_blank">/stats/rooms/yyyy-mm-dd</a></code>
-        - Retrieve rooms statistics for a specific date
+      <li><code>GET <a href="http://localhost:8080/rooms/stats/2024-11-25" target="_blank">/rooms/stats/:date</a></code>
+        - Retrieve room statistics for a specific date
+      </li>
+    </ul>
+    <h3> - Finance</h3>
+    <ul>
+      <li><code>GET <a href="http://localhost:8080/finance/prediction/2024-11-25" target="_blank">/finance/prediction/:date</a></code>
+        - Retrieve finance prediction for a specific date's month
+      </li>
+      <li><code>GET <a href="http://localhost:8080/finance/revenue/30" target="_blank">/finance/revenue/:days</a></code>
+        - Retrieve finance revenue for the last n days
+      </li>
+      <li><code>GET <a href="http://localhost:8080/finance/revenue/stats/30" target="_blank">/finance/revenue/stats/:days</a></code>
+        - Retrieve finance revenue statistics for the last n days
+      </li>
+      <li><code>GET <a href="http://localhost:8080/finance/revenue/stats/year/2024" target="_blank">/finance/revenue/stats/year/:year</a></code>
+        - Retrieve finance revenue statistics for a specific year
       </li>
     </ul>
   </section>

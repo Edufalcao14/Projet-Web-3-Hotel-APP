@@ -2,3 +2,9 @@
 
 ### Get all rooms
 GET {{baseUrl}}
+
+### Get rooms stats
+GET {{baseUrl}}/stats
+
+### Get rooms stats for a specific date
+GET {{baseUrl}}/stats/2024-11-25

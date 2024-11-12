@@ -1,8 +1,0 @@
-@baseUrl = http://localhost:8080/stats
-
-### Get rooms stats
-GET {{baseUrl}}/rooms
-
-### Get rooms stats for a specific date
-GET {{baseUrl}}/rooms/2024-11-25
-

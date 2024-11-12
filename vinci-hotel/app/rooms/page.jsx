@@ -9,6 +9,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import RoomsAPI from "../../services/api/rooms";
 
 export default function RoomsPage() {
+  const availabilityColors = ["#1e4620", "#f7b200", "#cb584e"];
   const colors = ["#044879", "#f7b200", "#2ebbce", "#025864", "#cb584e"];
   const today = new Date().toISOString().split("T")[0];
 
@@ -19,8 +20,63 @@ export default function RoomsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let availableRooms = [];
+    let reservedRooms = [];
+    let occupiedRooms = [];
+
+    const fetchStats = async () => {
+      setLoading(true);
+      try {
+        const statsData = await RoomsAPI.getStats(pickedDate);
+
+        if (statsData.statuses_stats) {
+          const occupancyRateData = statsData.statuses_stats.map((stat) => ({
+            asset: stat.current_status,
+            amount: parseInt(stat.count, 10),
+          }));
+          setOccupancyRate(occupancyRateData);
+
+          const availableRoomsData = statsData.types_stats.map((stat) => ({
+            asset: stat.type,
+            amount: parseInt(stat.count, 10),
+          }));
+          setAvailableRooms(availableRoomsData);
+        } else if (statsData.rooms) {
+          const occupancyRateData = [
+            {asset: "Available", amount: statsData.totalAvailableRooms},
+            {asset: "Reserved", amount: statsData.totalReservedRooms},
+            {asset: "Occupied", amount: statsData.totalOccupiedRooms},
+          ];
+          setOccupancyRate(occupancyRateData);
+
+          const availableRoomsData = statsData.types_stats.map((stat) => ({
+            asset: stat.type,
+            amount: parseInt(stat.count, 10),
+          }));
+          setAvailableRooms(availableRoomsData);
+
+          availableRooms = statsData.rooms.available;
+          reservedRooms = statsData.rooms.reserved;
+          occupiedRooms = statsData.rooms.occupied;
+
+          setRooms([...availableRooms, ...reservedRooms, ...occupiedRooms]);
+        } else {
+          console.warn("Unexpected response format:", statsData);
+          setOccupancyRate([]);
+          setAvailableRooms([]);
+        }
+      } catch (error) {
+        console.warn(error);
+        setOccupancyRate([]);
+        setAvailableRooms([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const fetchRooms = async () => {
       setLoading(true);
+
       try {
         const roomsData = await RoomsAPI.getAll();
         setRooms(roomsData);
@@ -32,50 +88,40 @@ export default function RoomsPage() {
       }
     };
 
-    const fetchStats = async () => {
-      setLoading(true);
-      try {
-        const statsData = await RoomsAPI.getStats(pickedDate);
-        const occupancyRateData = statsData.statuses_stats.map((stat) => ({
-          asset: stat.status,
-          amount: stat.count,
-        }));
-        setOccupancyRate(occupancyRateData);
-
-        const availableRoomsData = statsData.types_stats.map((stat) => ({
-          asset: stat.type,
-          amount: stat.count,
-        }));
-        setAvailableRooms(availableRoomsData);
-      } catch (error) {
-        console.warn(error);
-        setOccupancyRate([]);
-        setAvailableRooms([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRooms();
+    if (pickedDate === today) {
+      fetchRooms();
+    }
     fetchStats();
   }, [pickedDate]);
 
   const columnDefs = [
-    {headerName: "Nom", field: "name", sortable: true, filter: true},
-    {headerName: "Étage", field: "floor", sortable: true, filter: true},
-    {headerName: "Numéro", field: "number", sortable: true, filter: true},
-    {headerName: "Type", field: "type", sortable: true, filter: true},
+    {headerName: "Nom", field: "name", sortable: true, filter: true, flex: 1},
+    {
+      headerName: "Étage",
+      field: "floor",
+      sortable: true,
+      filter: true,
+      flex: 0.25
+    },
+    {
+      headerName: "Numéro",
+      field: "number",
+      sortable: true,
+      filter: true,
+      flex: 0.30
+    },
+    {headerName: "Type", field: "type", sortable: true, filter: true, flex: 1},
     {
       headerName: "Type de lit",
       field: "bed_type",
       sortable: true,
-      filter: true
+      filter: true, flex: 1
     },
     {
       headerName: "Statut Actuel",
       field: "current_status",
       sortable: true,
-      filter: true
+      filter: true, flex: 1
     },
   ];
 
@@ -104,7 +150,8 @@ export default function RoomsPage() {
               ) : occupancyRate.length > 0 ? (
                   <>
                     <DonutChart data={occupancyRate}
-                                title={`Date: ${pickedDate}`} colors={colors}
+                                title={`Date: ${pickedDate}`}
+                                colors={availabilityColors}
                                 textColor={"#ffffff"}/>
                     <div className="flex justify-center items-center mt-6">
                       <input
@@ -129,8 +176,11 @@ export default function RoomsPage() {
                   <div
                       className="text-center text-[#5A5555]">Chargement...</div>
               ) : availableRooms.length > 0 ? (
-                  <PieChart data={availableRooms} title={`Date: ${pickedDate}`}
-                            colors={colors}/>
+                  <div className="flex justify-center items-center">
+                    <PieChart data={availableRooms}
+                              title={`Date: ${pickedDate}`}
+                              colors={colors}/>
+                  </div>
               ) : (
                   <div className="text-center text-[#5A5555]">Pas de données
                     disponibles</div>

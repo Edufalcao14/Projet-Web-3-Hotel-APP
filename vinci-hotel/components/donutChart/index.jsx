@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { AgCharts } from "ag-charts-react";
+import React, {useEffect, useState} from "react";
+import {AgCharts} from "ag-charts-react";
 
-const DonutChart = ({ data, title, colors, textColor }) => {
+const DonutChart = ({data, title, colors, textColor}) => {
   const [options, setOptions] = useState({
     data: [],
-    background: { fill: "transparent" },
+    background: {fill: "transparent"},
     title: {
       text: title,
       fontSize: 18,
@@ -56,7 +56,7 @@ const DonutChart = ({ data, title, colors, textColor }) => {
     }));
   }, [data, title, colors]);
 
-  return <AgCharts options={options} />;
+  return <AgCharts options={options}/>;
 };
 
 export default DonutChart;

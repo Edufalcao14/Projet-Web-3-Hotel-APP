@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {getAllRooms} = require('../models/Room');
-const {getTodayRoomsStats, getRoomsStats} = require("../models/Stats");
+const {getAllRooms, getRoomsStats, getTodayRoomsStats} = require(
+    '../models/Room');
 
 /**
  * GET /rooms

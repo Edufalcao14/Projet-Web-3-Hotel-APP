@@ -5,6 +5,7 @@
 .container-main {
   @apply mx-auto w-full max-w-[1200px] px-6 bg-[#0C1922]
 }
+
 .container {
   @apply w-full max-w-[1200px] px-5
 }

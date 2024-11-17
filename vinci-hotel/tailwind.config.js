@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-   "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -19,7 +19,7 @@ module.exports = {
         'lighBackground-image': "url('/images/light-background.png')",
       },
       boxShadow: {
-        big: '0px 0px 68px 7px rgba(255, 255, 255, 0.4)', 
+        big: '0px 0px 68px 7px rgba(255, 255, 255, 0.4)',
         small: '0px 0px 68px 1px rgba(255, 255, 255, 0.4)',
       },
     },

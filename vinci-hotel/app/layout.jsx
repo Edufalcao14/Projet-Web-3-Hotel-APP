@@ -1,5 +1,5 @@
 // app/RootLayout.js
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import {Cormorant_Garamond, Inter} from "next/font/google";
 import "./globals.css";
 import SideBar from "../components/sidebar/index";
 
@@ -21,13 +21,13 @@ export const metadata = {
   description: "Hotel Vinci Management App",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({children}) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${cormorantGaramond.variable}`}
-    >
-        <body><SideBar>{children}</SideBar></body>  
-    </html>
+      <html
+          lang="en"
+          className={`${inter.variable} ${cormorantGaramond.variable}`}
+      >
+      <body><SideBar>{children}</SideBar></body>
+      </html>
   );
 }

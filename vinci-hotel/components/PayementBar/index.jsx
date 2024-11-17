@@ -14,7 +14,7 @@ const PaymentBar = ({totalValue, paidValue}) => {
         <p className="text-gray-500 text-lg mt-2">Total des paiements futurs
           prévus</p>
         <h1 className="text-3xl font-bold text-gray-900 my-4">
-          €{totalValue.toLocaleString("fr-FR", {minimumFractionDigits: 2})}
+          €{totalValue}
         </h1>
 
         <div
@@ -30,7 +30,7 @@ const PaymentBar = ({totalValue, paidValue}) => {
             <p className="text-green-500 font-medium text-lg">✅ Paiement
               Reçu</p>
             <p className="font-bold text-gray-700 text-lg">
-              €{paidValue.toLocaleString("fr-FR", {minimumFractionDigits: 2})}
+              €{paidValue}
             </p>
           </div>
           <div className="justify-center text-center">

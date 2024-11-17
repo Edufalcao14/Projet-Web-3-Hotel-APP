@@ -10,93 +10,124 @@ import {FaChartBar} from "react-icons/fa";
 import PayementBar from "../../components/PayementBar";
 import LineChart from "../../components/LineChart";
 import {MdBedroomParent} from "react-icons/md";
+import FinanceAPI from "../../services/api/finances";
 
 export default function Finances() {
   const iconCarte = <BsCreditCardFill size={35} color="#ffffff"/>;
   const iconCash = <RiCashLine size={35} color="#ffffff"/>;
   const iconTotal = <RiMoneyEuroBoxFill size={35} color="#ffffff"/>;
 
-  const cardValue = 22473.9;
-  const cashValue = 10837.83;
-  const totalInitialValue = cardValue + cashValue;
+const [barChartData, setBarChartData] = useState([]);
+const [pieChartData, setPieChartData] = useState([]);
+const [lineChartData, setLineChartData] = useState([]);
+const [progressBarData , setProgressBarData] = useState([]);
+const [totalRevenue , setTotalRevenue] = useState([]);
+const [nbrJours , setNbrJoursDefault] = useState(7); 
+const [loading, setLoading] = useState(true);
+const [totalValue, setTotalValue] = useState(0);
+const [selectedRange, setSelectedRange] = useState("7jours");
+const [filteredData, setFilteredData] = useState([]);
 
-  const total30daysValue = 53387.13;
-  const paidValue = 32032.278;
+useEffect(() => {
+  const fetchProgressData = async () => {
+    setLoading(true);
+    try {
+      const progressBarData = await FinanceAPI.getProgressBarData();
+      setProgressBarData(progressBarData);
+    } catch (error) {
+      console.warn(error);
+      setProgressBarData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const [totalValue, setTotalValue] = useState(totalInitialValue);
-  const [selectedRange, setSelectedRange] = useState("7jours");
-  const [filteredData, setFilteredData] = useState([]);
+  const fetchPieChartData = async () => {
+    setLoading(true);
+    try {
+      const pieChartData = await FinanceAPI.getPieChartData();
+      setPieChartData(pieChartData);
+      console.log("PieChartData", pieChartData);
+    } catch (error) {
+      console.warn(error);
+      setPieChartData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const showCardValue = () => setTotalValue(cardValue);
-  const showCashValue = () => setTotalValue(cashValue);
-  const showTotalValue = () => setTotalValue(totalInitialValue);
+  const fetchLineBarData = async () => {
+    setLoading(true);
+    try {
+      const lineChartData = await FinanceAPI.getLineChartData();
+      setLineChartData(lineChartData);
+    } catch (error) {
+      console.warn(error);
+      setLineChartData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const barChartData = [
-    {date: "14/10/2024", cash: 200, card: 500},
-    {date: "15/10/2024", cash: 400, card: 800},
-    {date: "16/10/2024", cash: 600, card: 900},
-    {date: "17/10/2024", cash: 300, card: 1000},
-    {date: "18/10/2024", cash: 500, card: 700},
-    {date: "19/10/2024", cash: 400, card: 850},
-    {date: "20/10/2024", cash: 550, card: 950},
-    {date: "21/10/2024", cash: 650, card: 900},
-    {date: "22/10/2024", cash: 500, card: 1000},
-    {date: "23/10/2024", cash: 300, card: 700},
-    {date: "24/10/2024", cash: 550, card: 950},
-    {date: "25/10/2024", cash: 450, card: 850},
-    {date: "26/10/2024", cash: 400, card: 750},
-    {date: "27/10/2024", cash: 600, card: 920},
-    {date: "28/10/2024", cash: 550, card: 980},
-    {date: "29/10/2024", cash: 500, card: 1000},
-    {date: "30/10/2024", cash: 480, card: 870},
-    {date: "31/10/2024", cash: 520, card: 920},
-    {date: "01/11/2024", cash: 400, card: 850},
-    {date: "02/11/2024", cash: 450, card: 890},
-    {date: "03/11/2024", cash: 300, card: 920},
-    {date: "04/11/2024", cash: 600, card: 1000},
-    {date: "05/11/2024", cash: 700, card: 950},
-    {date: "06/11/2024", cash: 500, card: 850},
-    {date: "07/11/2024", cash: 620, card: 980},
-    {date: "08/11/2024", cash: 550, card: 1000},
-    {date: "09/11/2024", cash: 600, card: 930},
-    {date: "10/11/2024", cash: 480, card: 890},
-    {date: "11/11/2024", cash: 500, card: 910},
-    {date: "12/11/2024", cash: 430, card: 870},
-    {date: "13/11/2024", cash: 650, card: 940},
-    {date: "14/11/2024", cash: 700, card: 1000},
-    {date: "15/11/2024", cash: 600, card: 920},
-  ];
-  const LineChartData = [
-    {Mois: "Jan", Standard: 1200, Double: 1500, Luxe: 2000, Bussines: 1700},
-    {Mois: "Feb", Standard: 1100, Double: 1400, Luxe: 1900, Bussines: 1600},
-    {Mois: "Mar", Standard: 1300, Double: 1550, Luxe: 2100, Bussines: 1800},
-    {Mois: "Apr", Standard: 1250, Double: 1600, Luxe: 2200, Bussines: 1750},
-    {Mois: "May", Standard: 1350, Double: 1650, Luxe: 2300, Bussines: 1850},
-  ];
+  const fetchBarChartData = async (nbrJours) => {
+    setLoading(true);
+    try {
+      const barChartData = await FinanceAPI.getBarChartData(nbrJours);
+      setBarChartData(barChartData);
+    } catch (error) {
+      console.warn(error);
+      setBarChartData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const fetchTotalRevenue = async () => {
+    setLoading(true);
+    try {
+      const totalRevenue = await FinanceAPI.getTotalRevenue();
+      setTotalRevenue(totalRevenue);
+      setTotalValue(totalRevenue.total);
+    } catch (error) {
+      console.warn(error);
+      setTotalRevenue([]);
+    } finally {
+     
+      setLoading(false);
+    }
+  };
 
+  fetchLineBarData();
+  fetchBarChartData(nbrJours);
+  fetchPieChartData();  
+  fetchProgressData();
+  fetchTotalRevenue();
+
+} , [nbrJours]); 
+
+  const showCardValue = () => setTotalValue(totalRevenue.card);
+  const showCashValue = () => setTotalValue(totalRevenue.cash);
+  const showTotalValue = () => setTotalValue(totalRevenue.total);
   const colors = ["#fcbb31", "#cb584e", "#cb584e", "#145381"];
 
-  const pieChartData = [
-    {asset: "MasterCard", amount: 60000},
-    {asset: "Visa", amount: 40000},
-    {asset: "Cash", amount: 5000},
-    {asset: "AmericanExpress", amount: 10000},
-  ];
   const filterData = (range) => {
     setSelectedRange(range);
     let days;
     switch (range) {
       case "7jours":
         days = 7;
+        setNbrJoursDefault(7);
         break;
       case "14jours":
         days = 14;
+        setNbrJoursDefault(14);
         break;
       case "31jours":
         days = 31;
+        setNbrJoursDefault(31);
         break;
       default:
         days = 7;
+        setNbrJoursDefault(7);
     }
 
     const filtered = barChartData.slice(-days);
@@ -174,7 +205,7 @@ export default function Finances() {
               </select>
             </div>
             <BarChart
-                data={filteredData}
+                data={barChartData}
                 title=""
                 xKey="date"
                 yKey={["card", "cash"]}
@@ -203,7 +234,7 @@ export default function Finances() {
           {/* Primeira coluna: Barra de pagamento */}
           <div
               className="col-span-1 sm:col-span-2 lg:col-span-1 p-4 bg-white shadow-lg rounded-lg">
-            <PayementBar totalValue={total30daysValue} paidValue={paidValue}/>
+            <PayementBar totalValue={progressBarData.prediction} paidValue={progressBarData.paid}/>
           </div>
 
           {/* Segunda coluna: Gráfico */}
@@ -216,7 +247,7 @@ export default function Finances() {
               </h1>
             </div>
             <LineChart
-                data={LineChartData}
+                data={lineChartData}
                 title=""
                 xKey="Mois"
                 yKey={["Standard", "Double", "Luxe", "Bussines"]}

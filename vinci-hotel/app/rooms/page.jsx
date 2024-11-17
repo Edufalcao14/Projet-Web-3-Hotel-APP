@@ -56,8 +56,17 @@ export default function RoomsPage() {
           setAvailableRooms(availableRoomsData);
 
           availableRooms = statsData.rooms.available;
+          for (let room of availableRooms) {
+            room.current_status = "Available";
+          }
           reservedRooms = statsData.rooms.reserved;
+          for (let room of reservedRooms) {
+            room.current_status = "Reserved";
+          }
           occupiedRooms = statsData.rooms.occupied;
+          for (let room of occupiedRooms) {
+            room.current_status = "Occupied";
+          }
 
           setRooms([...availableRooms, ...reservedRooms, ...occupiedRooms]);
         } else {
@@ -118,7 +127,7 @@ export default function RoomsPage() {
       filter: true, flex: 1
     },
     {
-      headerName: "Statut Actuel",
+      headerName: pickedDate === today ? "Statut actuel" : "Statut",
       field: "current_status",
       sortable: true,
       filter: true, flex: 1

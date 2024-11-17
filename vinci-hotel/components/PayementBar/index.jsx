@@ -8,7 +8,7 @@ const PaymentBar = ({ totalValue, paidValue }) => {
   return (
     <div className="max-w-md mx-auto font-sans">
       <h3 className="text-lg font-semibold flex items-center space-x-2">
-        <FaCalendar size={35} color="#0FA958" />
+        <FaCalendar size={30} color="#0FA958" />
         <span className="text-2xl ml-3 font-medium text-[#5A5555]">Paiements planifiés pour le mois</span>
       </h3>
       <p className="text-gray-500 text-lg mt-2">Total des paiements futurs prévus</p>

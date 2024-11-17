@@ -9,6 +9,8 @@ import BarChart from "../../components/barChart";
 import { FaChartBar } from "react-icons/fa";
 import { BsCashCoin } from "react-icons/bs";
 import PayementBar from "../../components/PayementBar";
+import LineChart from "../../components/LineChart";
+import { MdBedroomParent } from "react-icons/md";
 
 export default function Finances() {
   const iconCarte = <BsCreditCardFill size={35} color="#ffffff" />;
@@ -65,8 +67,15 @@ export default function Finances() {
     { date: "14/11/2024", cash: 700, card: 1000 },
     { date: "15/11/2024", cash: 600, card: 920 },
   ];
+  const LineChartData = [
+    { Mois: "Jan", Standard: 1200, Double: 1500, Luxe: 2000, Bussines: 1700 },
+    { Mois: "Feb", Standard: 1100, Double: 1400, Luxe: 1900, Bussines: 1600 },
+    { Mois: "Mar", Standard: 1300, Double: 1550, Luxe: 2100, Bussines: 1800 },
+    { Mois: "Apr", Standard: 1250, Double: 1600, Luxe: 2200, Bussines: 1750 },
+    { Mois: "May", Standard: 1350, Double: 1650, Luxe: 2300, Bussines: 1850 },
+  ];
 
-  const dataFake = [21354852, 32032278];
+  const colors = ["#fcbb31", "#cb584e", "#cb584e", "#145381"];
 
   const pieChartData = [
     { asset: "MasterCard", amount: 60000 },
@@ -185,12 +194,27 @@ export default function Finances() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 mx-4 my-6 ">
-        <div className="p-4 bg-white shadow-lg rounded-lg">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 mx-4 my-6">
+        {/* Primeira coluna: Barra de pagamento */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-1 p-4 bg-white shadow-lg rounded-lg">
           <PayementBar totalValue={total30daysValue} paidValue={paidValue} />
         </div>
-        <div>
-          
+
+        {/* Segunda coluna: Gráfico */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-2 p-4 bg-white shadow-lg rounded-lg">
+          <div className="flex flex-wrap items-center">
+            <MdBedroomParent size={35} color="#0FA958" />
+            <h1 className="text-xl sm:text-2xl ml-3 font-medium text-[#5A5555]">
+              Chiffre d&rsquo;affaires par type de chambre
+            </h1>
+          </div>
+          <LineChart
+            data={LineChartData}
+            title=""
+            xKey="Mois"
+            yKey={["Standard", "Double", "Luxe", "Bussines"]}
+            colors={colors}
+          />
         </div>
       </div>
     </section>

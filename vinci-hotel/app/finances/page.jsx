@@ -2,10 +2,14 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import ButtonFinances from "../../components/ButtonFinances";
-import {BsCreditCardFill} from "react-icons/bs";
+import {BsCashCoin, BsCreditCardFill} from "react-icons/bs";
 import {RiCashLine, RiMoneyEuroBoxFill} from "react-icons/ri";
 import PieChart from "../../components/pieChart";
 import BarChart from "../../components/barChart";
+import {FaChartBar} from "react-icons/fa";
+import PayementBar from "../../components/PayementBar";
+import LineChart from "../../components/LineChart";
+import {MdBedroomParent} from "react-icons/md";
 
 export default function Finances() {
   const iconCarte = <BsCreditCardFill size={35} color="#ffffff"/>;
@@ -15,6 +19,9 @@ export default function Finances() {
   const cardValue = 22473.9;
   const cashValue = 10837.83;
   const totalInitialValue = cardValue + cashValue;
+
+  const total30daysValue = 53387.13;
+  const paidValue = 32032.278;
 
   const [totalValue, setTotalValue] = useState(totalInitialValue);
   const [selectedRange, setSelectedRange] = useState("7jours");
@@ -59,6 +66,15 @@ export default function Finances() {
     {date: "14/11/2024", cash: 700, card: 1000},
     {date: "15/11/2024", cash: 600, card: 920},
   ];
+  const LineChartData = [
+    {Mois: "Jan", Standard: 1200, Double: 1500, Luxe: 2000, Bussines: 1700},
+    {Mois: "Feb", Standard: 1100, Double: 1400, Luxe: 1900, Bussines: 1600},
+    {Mois: "Mar", Standard: 1300, Double: 1550, Luxe: 2100, Bussines: 1800},
+    {Mois: "Apr", Standard: 1250, Double: 1600, Luxe: 2200, Bussines: 1750},
+    {Mois: "May", Standard: 1350, Double: 1650, Luxe: 2300, Bussines: 1850},
+  ];
+
+  const colors = ["#fcbb31", "#cb584e", "#cb584e", "#145381"];
 
   const pieChartData = [
     {asset: "MasterCard", amount: 60000},
@@ -135,14 +151,18 @@ export default function Finances() {
         </div>
         {/* Display bar chart and pie chart side by side */}
         <div
-            className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8 mx-4 my-6 rounded-lg shadow-lg">
+            className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8 mx-4 my-3 rounded-lg shadow-lg">
           <div className="bg-white p-6 shadow-lg rounded-lg md:col-span-2">
             {" "}
             {/* BarChart takes 2/3 on medium screens and above */}
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-medium text-[#5A5555]">
+              <div className="flex flex-wrap">
+                <FaChartBar className="mx-1" size={30} color="#0FA958"/>
+                <h2 className="text-2xl ml-3 font-medium text-[#5A5555]">
                 Prévisions des Réservations
               </h2>
+              </div>
+
               <select
                   value={selectedRange}
                   onChange={(e) => filterData(e.target.value)}
@@ -155,27 +175,55 @@ export default function Finances() {
             </div>
             <BarChart
                 data={filteredData}
-                title="Prévisions de Réservations"
+                title=""
                 xKey="date"
                 yKey={["card", "cash"]}
-                colors={["#a5d6a7", "#66bb6a"]}
+                colors={["#044879", "#66bb6a"]}
             />
           </div>
           <div className="bg-white p-6 shadow-lg rounded-lg md:col-span-1">
-            {" "}
-            {/* PieChart takes 1/3 on medium screens and above */}
+            <div className="flex flex-wrap">
+              <BsCashCoin className="mt-2" size={30} color="#0FA958"/>
+              <h2 className="text-2xl ml-3 font-medium text-[#5A5555]">
+                Aperçu Mode de paiement
+              </h2>
+            </div>
             <PieChart
                 data={pieChartData}
-                title="Aperçu Mode de paiement"
+                title=""
                 width={500}
                 height={400}
-                colors={["#cb584e", "#044879", "#ffee58", "#f9ad20"]}
+                colors={["#cb584e", "#044879", "#0FA958", "#f9ad20"]}
             />
           </div>
         </div>
 
         <div
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 mx-4 my-6 rounded-lg shadow-lg"></div>
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 mx-4 my-6">
+          {/* Primeira coluna: Barra de pagamento */}
+          <div
+              className="col-span-1 sm:col-span-2 lg:col-span-1 p-4 bg-white shadow-lg rounded-lg">
+            <PayementBar totalValue={total30daysValue} paidValue={paidValue}/>
+          </div>
+
+          {/* Segunda coluna: Gráfico */}
+          <div
+              className="col-span-1 sm:col-span-2 lg:col-span-2 p-4 bg-white shadow-lg rounded-lg">
+            <div className="flex flex-wrap items-center">
+              <MdBedroomParent size={35} color="#0FA958"/>
+              <h1 className="text-xl sm:text-2xl ml-3 font-medium text-[#5A5555]">
+                Chiffre d&rsquo;affaires par type de chambre
+              </h1>
+            </div>
+            <LineChart
+                data={LineChartData}
+                title=""
+                xKey="Mois"
+                yKey={["Standard", "Double", "Luxe", "Bussines"]}
+                colors={colors}
+            />
+          </div>
+        </div>
       </section>
   );
 }

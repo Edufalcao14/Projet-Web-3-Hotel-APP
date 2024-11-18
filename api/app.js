@@ -53,12 +53,14 @@ const indexRouter = require('./routes/index-route');
 const roomsRouter = require('./routes/rooms-route');
 const financeRouter = require('./routes/finance-route');
 const reservationsRouter = require('./routes/reservations-route');
+const servicesRouter = require('./routes/services-route');
 
 // Routes
 app.use('/', indexRouter);
 app.use('/rooms', roomsRouter);
 app.use('/finance', financeRouter);
 app.use('/reservations', reservationsRouter);
+app.use('/services', servicesRouter);
 
 // Run the server
 app.listen(PORT, () => {

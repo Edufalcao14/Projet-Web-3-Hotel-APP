@@ -1,4 +1,5 @@
-const router = require("./index-route");
+const express = require('express');
+const router = express.Router();
 const {
     getAllReservations,
     getTodayReservationsStats,
@@ -12,7 +13,7 @@ const {
  * @tags reservations
  * @return {Array<Reservation>} 200 - All reservations are returned - application/json
  */
-router.get('/reservations', async function (req, res) {
+router.get('/', async function (req, res) {
     const reservations = await getAllReservations();
     res.send(reservations);
 });
@@ -23,7 +24,7 @@ router.get('/reservations', async function (req, res) {
  * @tags reservations
  * @return {ReservationsStats} 200 - Statistics about reservations are returned - application/json
  */
-router.get('/reservations/stats', async function (req, res) {
+router.get('/stats', async function (req, res) {
     const reservationsStats = await getTodayReservationsStats();
     res.status(200).json(reservationsStats);
 });
@@ -37,7 +38,7 @@ router.get('/reservations/stats', async function (req, res) {
  * @return {ReservationsHistory} 200 - Statistics about past reservations are returned - application
  * @return {object} 400 - Invalid number of days - application/json
  */
-router.get('/reservations/partners/stats/:nbrDays', async function (req, res) {
+router.get('/partners/stats/:nbrDays', async function (req, res) {
     const nbrDays = parseInt(req.params.nbrDays, 10);
 
     if (isNaN(nbrDays)) {

@@ -1,57 +1,84 @@
 <html>
 
 <head>
-  <title>Express</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Express</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
 <header>
-  <h1>Welcome to Vinci Hotel API</h1>
+    <h1>Welcome to Vinci Hotel API</h1>
 </header>
 <main>
-  <section>
-    <h2>API Documentation</h2>
-    <p>Documentation is available at <a href="http://localhost:8080/api-docs/" target="_blank">http://localhost:8080/api-docs/</a>
-    </p>
-  </section>
-  <section>
-    <h2>Available Endpoints</h2>
-    <h3> - Rooms</h3>
-    <ul>
-      <li><code>GET <a href="http://localhost:8080/rooms" target="_blank">/rooms</a></code> -
-        Retrieve all rooms
-      </li>
-      <li><code>GET <a href="http://localhost:8080/rooms/stats"
-                       target="_blank">/rooms/stats</a></code> - Retrieve today's room statistics
-      </li>
-      <li><code>GET <a href="http://localhost:8080/rooms/stats/2024-11-25" target="_blank">/rooms/stats/:date</a></code>
-        - Retrieve room statistics for a specific date
-      </li>
-    </ul>
-    <h3> - Finance</h3>
-    <ul>
-      <li><code>GET <a href="http://localhost:8080/finance/prediction/2024-11-25" target="_blank">/finance/prediction/:date</a></code>
-        - Retrieve finance prediction for a specific date's month
-      </li>
-      <li><code>GET <a href="http://localhost:8080/finance/revenue/30" target="_blank">/finance/revenue/:days</a></code>
-        - Retrieve finance revenue for the last n days
-      </li>
-      <li><code>GET <a href="http://localhost:8080/finance/revenue/stats/30" target="_blank">/finance/revenue/stats/:days</a></code>
-        - Retrieve finance revenue statistics for the last n days
-      </li>
-      <li><code>GET <a href="http://localhost:8080/finance/revenue/stats/year/2024" target="_blank">/finance/revenue/stats/year/:year</a></code>
-        - Retrieve finance revenue statistics for a specific year
-      </li>
-    </ul>
-  </section>
-  <section>
-    <h2>About</h2>
-    <p>This API provides endpoints to manage a hotel.</p>
-  </section>
+    <section>
+        <h2>API Documentation</h2>
+        <p>Documentation is available at <a href="http://localhost:8080/api-docs/" target="_blank">http://localhost:8080/api-docs/</a>
+        </p>
+    </section>
+    <section>
+        <h2>Available Endpoints</h2>
+        <h3> - Rooms</h3>
+        <ul>
+            <li><code>GET <a href="http://localhost:8080/rooms" target="_blank">/rooms</a></code> -
+                Retrieve all rooms
+            </li>
+            <li><code>GET <a href="http://localhost:8080/rooms/stats"
+                             target="_blank">/rooms/stats</a></code> - Retrieve today's room statistics
+            </li>
+            <li><code>GET <a href="http://localhost:8080/rooms/stats/2024-11-25" target="_blank">/rooms/stats/:date</a></code>
+                - Retrieve room statistics for a specific date
+            </li>
+        </ul>
+        <h3> - Finance</h3>
+        <ul>
+            <li><code>GET <a href="http://localhost:8080/finance/prediction/2024-11-25" target="_blank">/finance/prediction/:date</a></code>
+                - Retrieve finance prediction for a specific date's month
+            </li>
+            <li><code>GET <a href="http://localhost:8080/finance/revenue/30" target="_blank">/finance/revenue/:days</a></code>
+                - Retrieve finance revenue for the last n days
+            </li>
+            <li><code>GET <a href="http://localhost:8080/finance/revenue/stats/30" target="_blank">/finance/revenue/stats/:days</a></code>
+                - Retrieve finance revenue statistics for the last n days
+            </li>
+            <li><code>GET <a href="http://localhost:8080/finance/revenue/stats/year/2024" target="_blank">/finance/revenue/stats/year/:year</a></code>
+                - Retrieve finance revenue statistics for a specific year
+            </li>
+        </ul>
+        <h3> - Reservations</h3>
+        <ul>
+            <li><code>GET <a href="http://localhost:8080/reservations" target="_blank">/reservations</a></code> -
+                Retrieve all reservations for today
+            </li>
+            <li><code>GET <a href="http://localhost:8080/reservations/stats"
+                             target="_blank">/reservations/stats</a></code> - Retrieve today's reservation statistics
+            </li>
+            <li><code>GET <a href="http://localhost:8080/reservations/partners/stats/-7" target="_blank">/reservations/partners/stats/:date</a></code>
+                - Retrieve reservation statistics for the last n days
+            </li>
+            <li><code>GET <a href="http://localhost:8080/reservations/partners/stats/7" target="_blank">/reservations/partners/stats/:date</a></code>
+                - Retrieve reservation statistics for the next n days
+            </li>
+        </ul>
+        <h3> - Services</h3>
+        <ul>
+            <li><code>GET <a href="http://localhost:8080/services" target="_blank">/services</a></code> -
+                Retrieve all services for today
+            </li>
+            <li><code>GET <a href="http://localhost:8080/services/stats"
+                             target="_blank">/services/stats</a></code> - Retrieve today's service statistics
+            </li>
+            <li><code>GET <a href="http://localhost:8080/services/stats/year/2024" target="_blank">/services/stats/year/:year</a></code>
+                - Retrieve service statistics for a specific year
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>About</h2>
+        <p>This API provides endpoints to manage a hotel.</p>
+    </section>
 </main>
 <footer>
-  <p>&copy; 2023 Vinci Hotel API. All rights reserved.</p>
+    <p>&copy; 2023 Vinci Hotel API. All rights reserved.</p>
 </footer>
 </body>
 

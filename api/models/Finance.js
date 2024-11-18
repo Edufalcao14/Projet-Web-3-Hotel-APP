@@ -184,7 +184,7 @@ async function getRevenueByRoomType(year) {
             {month: "Août", revenue: 0, count: 0},
             {month: "Septembre", revenue: 0, count: 0},
             {month: "Octobre", revenue: 0, count: 0},
-            {month: "Novembre", revenue: 0, count: 0},
+            {month: "Movember 🥸", revenue: 0, count: 0},
             {month: "Décembre", revenue: 0, count: 0}
         ];
 

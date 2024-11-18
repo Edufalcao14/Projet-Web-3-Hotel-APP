@@ -193,3 +193,32 @@ WHERE ((arrival_date
     AND (arrival_date <= CURRENT_DATE))
   AND is_paid = TRUE
 GROUP BY service;
+
+-- Services revenue by month
+WITH nbr_services AS (SELECT service_id, COUNT(reservation_id) AS count
+                      FROM project.reservations_vw
+                      WHERE date_part('month', arrival_date) = 11
+                        AND date_part('year', arrival_date) = 2024
+                        AND is_paid = TRUE
+                      GROUP BY service_id)
+SELECT service_name AS service, SUM(n.count * s.price * (departure_date - arrival_date)) AS revenue
+FROM reservations_vw r
+         INNER JOIN project.services s ON r.service_id = s.service_id
+         INNER JOIN nbr_services n ON n.service_id = r.service_id
+WHERE date_part('month', arrival_date) = 11
+  AND date_part('year', arrival_date) = 2024
+  AND is_paid = TRUE
+GROUP BY service;
+
+-- All services (today)
+SELECT service_name AS service,
+       client_first_name,
+       client_last_name,
+       client_email,
+       client_phone_number,
+       room_name,
+       reservation_id
+FROM reservations_vw
+WHERE CURRENT_DATE BETWEEN arrival_date AND departure_date
+  AND service_name IS NOT NULL
+ORDER BY client_last_name, client_first_name, room_name;

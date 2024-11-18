@@ -10,4 +10,4 @@ GET {{baseUrl}}/stats
 GET {{baseUrl}}/partners/stats/7
 
 ### Get reservations history
-GET {{baseUrl}}/partners/stats/7
+GET {{baseUrl}}/partners/stats/-7

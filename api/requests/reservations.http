@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:8080/reservations
+
+### Get all reservations
+GET {{baseUrl}}
+
+### Get reservations stats
+GET {{baseUrl}}/stats
+
+### Get reservations predictions
+GET {{baseUrl}}/partners/stats/7
+
+### Get reservations history
+GET {{baseUrl}}/partners/stats/7

@@ -52,11 +52,13 @@ app.use(cors(corsOptions));
 const indexRouter = require('./routes/index-route');
 const roomsRouter = require('./routes/rooms-route');
 const financeRouter = require('./routes/finance-route');
+const reservationsRouter = require('./routes/reservations-route');
 
 // Routes
 app.use('/', indexRouter);
 app.use('/rooms', roomsRouter);
 app.use('/finance', financeRouter);
+app.use('/reservations', reservationsRouter);
 
 // Run the server
 app.listen(PORT, () => {

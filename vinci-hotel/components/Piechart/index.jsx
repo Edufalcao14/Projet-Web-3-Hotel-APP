@@ -18,12 +18,7 @@ const PieChart = ({data, title, colors, width = 600, height = 400}) => {
           type: "pie",
           angleKey: "amount",
           calloutLabelKey: "asset",
-          sectorLabelKey: "amount",
           fills: colors,
-          sectorLabel: {
-            fontWeight: "bold",
-            formatter: ({value}) => `${value} réservations`,
-          },
         },
       ],
     });

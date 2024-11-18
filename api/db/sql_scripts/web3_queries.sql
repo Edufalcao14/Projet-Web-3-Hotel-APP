@@ -155,9 +155,11 @@ WHERE (departure_date BETWEEN CURRENT_DATE - 30 AND CURRENT_DATE)
   AND payment_type_name = 'Cash';
 
 -- Revenue by date (last days)
-SELECT departure_date AS date, SUM(total_price) AS revenue
+SELECT departure_date                                                         AS date,
+       SUM(CASE WHEN payment_type_name != 'Cash' THEN total_price ELSE 0 END) AS card_revenue,
+       SUM(CASE WHEN payment_type_name = 'Cash' THEN total_price ELSE 0 END)  AS cash_revenue
 FROM project.reservations_grouped_vw
-WHERE (departure_date BETWEEN CURRENT_DATE - 30 AND CURRENT_DATE)
+WHERE (departure_date BETWEEN CURRENT_DATE - INTERVAL '${interval}' AND CURRENT_DATE)
   AND is_paid = TRUE
 GROUP BY departure_date
 ORDER BY departure_date;

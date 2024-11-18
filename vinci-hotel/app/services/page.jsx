@@ -2,7 +2,7 @@
 
 import React from "react";
 import DonutChart from "../../components/donutChart";
-import AreaSeriesChart from "../../components/areaSeriesChart"
+import {AgCharts} from "ag-charts-react";
 import {AgGridReact} from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -59,6 +59,13 @@ export default function ServicesPage() {
     },
   ];
 
+  const options = {
+    title: {
+      text: "Ventes des Services",
+    },
+    data: allBarChartData,
+    series: series,
+  };
   //tableau
   const rowData = [
     {
@@ -188,11 +195,7 @@ export default function ServicesPage() {
             <div className="bg-white p-6 shadow-lg rounded-lg">
               <h2 className="text-xl font-medium text-[#5A5555] mb-4">Ventes des
                 Services par Quadrimestre (2023)</h2>
-              <AreaSeriesChart
-                  title="Ventes des Services"
-                  data={allBarChartData}
-                  series={series}
-              />
+                <AgCharts options={options}/>
             </div>
           </div>
 

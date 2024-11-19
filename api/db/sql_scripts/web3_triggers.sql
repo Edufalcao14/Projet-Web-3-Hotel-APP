@@ -105,7 +105,7 @@ BEGIN
         END IF;
 
     ELSIF new_status = 'Occupied' THEN
-        IF old_status != 'Reserved' THEN
+        IF old_status != 'Reserved' AND old_status != 'Available' THEN
             RAISE EXCEPTION 'Room status cannot be changed to ''Occupied'' from ''%''', old_status;
         END IF;
 

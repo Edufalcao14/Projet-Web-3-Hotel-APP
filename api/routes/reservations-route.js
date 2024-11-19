@@ -4,7 +4,7 @@ const {
     getAllReservations,
     getTodayReservationsStats,
     getReservationsPrediction,
-    getReservationsHistory
+    getReservationsHistory, updateReservation
 } = require("../models/Reservation");
 
 /**
@@ -54,6 +54,44 @@ router.get('/partners/stats/:nbrDays', async function (req, res) {
     }
 
     res.status(200).json(result);
+});
+
+/**
+ * POST /reservations/:id/check-in
+ * @summary Check-in a reservation
+ * @tags reservations
+ * @param {string} id.path - The id of the reservation to check-in - eg: 1
+ * @return {Reservation} 200 - The reservation is checked-in - application/json
+ * @return {object} 404 - Reservation not found - application/json
+ */
+router.post('/:id/check-in', async function (req, res) {
+    const id = parseInt(req.params.id, 10);
+    const reservation = await updateReservation(id, {checked_in: true});
+
+    if (!reservation) {
+        return res.status(404).json({error: 'Reservation not found.'});
+    }
+
+    res.status(200).json(reservation);
+});
+
+/**
+ * POST /reservations/:id/check-out
+ * @summary Check-out a reservation
+ * @tags reservations
+ * @param {string} id.path - The id of the reservation to check-out - eg: 1
+ * @return {Reservation} 200 - The reservation is checked-out - application/json
+ * @return {object} 404 - Reservation not found - application/json
+ */
+router.post('/:id/check-out', async function (req, res) {
+    const id = parseInt(req.params.id, 10);
+    const reservation = await updateReservation(id, {checked_out: true});
+
+    if (!reservation) {
+        return res.status(404).json({error: 'Reservation not found.'});
+    }
+
+    res.status(200).json(reservation);
 });
 
 module.exports = router;

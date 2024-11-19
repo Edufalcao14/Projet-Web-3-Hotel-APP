@@ -1,467 +1,385 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import DonutChart from "../../components/donutChart";
 import BarChart from "../../components/barChart";
-import PieChart from "../../components/pieChart";
 import {AgGridReact} from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {MdInsertChart} from "react-icons/md";
+import ReservationsAPI from "../../services/api/reservations";
+import DonutChart from "../../components/donutChart";
 import {BsCalendar2CheckFill} from "react-icons/bs";
+import PieChart from "../../components/Piechart";
 
 export default function ReservationsPage() {
-  const donutChartData = [
-    {asset: "Check-In", amount: 31},
-    {asset: "Check-Out", amount: 18},
-    {asset: "In Home", amount: 56},
-  ];
-  const allBarChartData = [
-    {
-      date: "11/11/2024",
-      Booking: 25,
-      Expedia: 20,
-      "Hotel Beds": 15,
-      "Hotel Vinci": 10,
-      Airbnb: 5,
-    },
-    {
-      date: "12/11/2024",
-      Booking: 30,
-      Expedia: 25,
-      "Hotel Beds": 20,
-      "Hotel Vinci": 15,
-      Airbnb: 10,
-    },
-    {
-      date: "13/11/2024",
-      Booking: 35,
-      Expedia: 30,
-      "Hotel Beds": 25,
-      "Hotel Vinci": 20,
-      Airbnb: 15,
-    },
-    {
-      date: "14/11/2024",
-      Booking: 40,
-      Expedia: 35,
-      "Hotel Beds": 30,
-      "Hotel Vinci": 25,
-      Airbnb: 20,
-    },
-    {
-      date: "15/11/2024",
-      Booking: 45,
-      Expedia: 40,
-      "Hotel Beds": 35,
-      "Hotel Vinci": 30,
-      Airbnb: 25,
-    },
-    {
-      date: "16/11/2024",
-      Booking: 50,
-      Expedia: 45,
-      "Hotel Beds": 40,
-      "Hotel Vinci": 35,
-      Airbnb: 30,
-    },
-    {
-      date: "17/11/2024",
-      Booking: 55,
-      Expedia: 50,
-      "Hotel Beds": 45,
-      "Hotel Vinci": 40,
-      Airbnb: 35,
-    },
-    {
-      date: "18/11/2024",
-      Booking: 60,
-      Expedia: 55,
-      "Hotel Beds": 50,
-      "Hotel Vinci": 45,
-      Airbnb: 40,
-    },
-    {
-      date: "19/11/2024",
-      Booking: 65,
-      Expedia: 60,
-      "Hotel Beds": 55,
-      "Hotel Vinci": 50,
-      Airbnb: 45,
-    },
-    {
-      date: "20/11/2024",
-      Booking: 70,
-      Expedia: 65,
-      "Hotel Beds": 60,
-      "Hotel Vinci": 55,
-      Airbnb: 50,
-    },
-    {
-      date: "21/11/2024",
-      Booking: 75,
-      Expedia: 70,
-      "Hotel Beds": 65,
-      "Hotel Vinci": 60,
-      Airbnb: 55,
-    },
-    {
-      date: "22/11/2024",
-      Booking: 80,
-      Expedia: 75,
-      "Hotel Beds": 70,
-      "Hotel Vinci": 65,
-      Airbnb: 60,
-    },
-    {
-      date: "23/11/2024",
-      Booking: 85,
-      Expedia: 80,
-      "Hotel Beds": 75,
-      "Hotel Vinci": 70,
-      Airbnb: 65,
-    },
-    {
-      date: "24/11/2024",
-      Booking: 90,
-      Expedia: 85,
-      "Hotel Beds": 80,
-      "Hotel Vinci": 75,
-      Airbnb: 70,
-    },
-    {
-      date: "25/11/2024",
-      Booking: 95,
-      Expedia: 90,
-      "Hotel Beds": 85,
-      "Hotel Vinci": 80,
-      Airbnb: 75,
-    },
-    {
-      date: "26/11/2024",
-      Booking: 100,
-      Expedia: 95,
-      "Hotel Beds": 90,
-      "Hotel Vinci": 85,
-      Airbnb: 80,
-    },
-    {
-      date: "27/11/2024",
-      Booking: 105,
-      Expedia: 100,
-      "Hotel Beds": 95,
-      "Hotel Vinci": 90,
-      Airbnb: 85,
-    },
-    {
-      date: "28/11/2024",
-      Booking: 110,
-      Expedia: 105,
-      "Hotel Beds": 100,
-      "Hotel Vinci": 95,
-      Airbnb: 90,
-    },
-    {
-      date: "29/11/2024",
-      Booking: 115,
-      Expedia: 110,
-      "Hotel Beds": 105,
-      "Hotel Vinci": 100,
-      Airbnb: 95,
-    },
-    {
-      date: "30/11/2024",
-      Booking: 120,
-      Expedia: 115,
-      "Hotel Beds": 110,
-      "Hotel Vinci": 105,
-      Airbnb: 100,
-    },
-  ];
 
-  const pieChartData = [
-    {asset: "Booking", amount: 256},
-    {asset: "Expedia", amount: 198},
-    {asset: "Hotel Beds", amount: 154},
-    {asset: "Hotel Vinci", amount: 110},
-    {asset: "Airbnb", amount: 76},
-  ];
+    const [rowData, setRowData] = useState([]);
 
-  const rowData = [
-    {
-      id: 1,
-      guest: "Jean Dupont",
-      checkIn: "2024-11-04",
-      checkOut: "2024-11-10",
-      room: "101",
-      status: "Confirmed",
-    },
-    {
-      id: 2,
-      guest: "Marie Curie",
-      checkIn: "2024-11-03",
-      checkOut: "2024-11-08",
-      room: "102",
-      status: "Pending",
-    },
-    {
-      id: 3,
-      guest: "Pierre Curie",
-      checkIn: "2024-11-05",
-      checkOut: "2024-11-09",
-      room: "103",
-      status: "Confirmed",
-    },
-    {
-      id: 4,
-      guest: "Albert Einstein",
-      checkIn: "2024-11-06",
-      checkOut: "2024-11-11",
-      room: "104",
-      status: "Pending",
-    },
-    {
-      id: 5,
-      guest: "Isaac Newton",
-      checkIn: "2024-11-07",
-      checkOut: "2024-11-12",
-      room: "105",
-      status: "Confirmed",
-    },
-    {
-      id: 6,
-      guest: "Galileo Galilei",
-      checkIn: "2024-11-08",
-      checkOut: "2024-11-13",
-      room: "106",
-      status: "Confirmed",
-    },
-    {
-      id: 7,
-      guest: "Nikola Tesla",
-      checkIn: "2024-11-09",
-      checkOut: "2024-11-14",
-      room: "107",
-      status: "Pending",
-    },
-    {
-      id: 8,
-      guest: "Thomas Edison",
-      checkIn: "2024-11-10",
-      checkOut: "2024-11-15",
-      room: "108",
-      status: "Confirmed",
-    },
-    {
-      id: 9,
-      guest: "Alexander Graham Bell",
-      checkIn: "2024-11-11",
-      checkOut: "2024-11-16",
-      room: "109",
-      status: "Confirmed",
-    },
-    {
-      id: 10,
-      guest: "James Watt",
-      checkIn: "2024-11-12",
-      checkOut: "2024-11-17",
-      room: "110",
-      status: "Pending",
-    },
-    {
-      id: 11,
-      guest: "Michael Faraday",
-      checkIn: "2024-11-13",
-      checkOut: "2024-11-18",
-      room: "111",
-      status: "Confirmed",
-    },
-    {
-      id: 12,
-      guest: "Max Planck",
-      checkIn: "2024-11-14",
-      checkOut: "2024-11-19",
-      room: "112",
-      status: "Confirmed",
-    },
-    {
-      id: 13,
-      guest: "Erwin Schrödinger",
-      checkIn: "2024-11-15",
-      checkOut: "2024-11-20",
-      room: "113",
-      status: "Pending",
-    },
-    {
-      id: 14,
-      guest: "Werner Heisenberg",
-      checkIn: "2024-11-16",
-      checkOut: "2024-11-21",
-      room: "114",
-      status: "Confirmed",
-    },
-    {
-      id: 15,
-      guest: "Richard Feynman",
-      checkIn: "2024-11-17",
-      checkOut: "2024-11-22",
-      room: "115",
-      status: "Confirmed",
-    },
-  ];
+    const handleCheckInChange = async (reservation, newValue) => {
+        try {
+            await ReservationsAPI.checkIn(reservation.reservation_id);
+            console.log("Checked in:", reservation.reservation_id);
 
-  const columnDefs = [
-    {headerName: "Guest", field: "guest", sortable: true, filter: true},
-    {
-      headerName: "Check-In Date",
-      field: "checkIn",
-      sortable: true,
-      filter: true,
-    },
-    {
-      headerName: "Check-Out Date",
-      field: "checkOut",
-      sortable: true,
-      filter: true,
-    },
-    {headerName: "Room", field: "room", sortable: true, filter: true},
-    {headerName: "Status", field: "status", sortable: true, filter: true},
-  ];
+            setRowData((prevData) => {
+                return prevData.map((item) =>
+                    item.reservation_id === reservation.reservation_id
+                        ? {...item, checked_in: newValue}
+                        : item
+                );
+            });
+        } catch (error) {
+            console.error("Error during check-in API call:", error);
+        }
+    };
 
-  const colors = ["#044879", "#f7b200", "#2ebbce", "#025864", "#cb584e"];
+    const handleCheckOutChange = async (reservation, newValue) => {
+        try {
+            await ReservationsAPI.checkOut(reservation.reservation_id);
+            console.log("Checked out:", reservation.reservation_id);
 
-  const [barChartData, setBarChartData] = useState([]);
-  const [selectedRange, setSelectedRange] = useState("7jours");
+            setRowData((prevData) => {
+                return prevData.map((item) =>
+                    item.reservation_id === reservation.reservation_id
+                        ? {...item, checked_out: newValue}
+                        : item
+                );
+            });
+        } catch (error) {
+            console.error("Error during check-out API call:", error);
+        }
+    };
 
-  useEffect(() => {
-    filterData("7jours");
-  }, []);
+    const columnDefs = [
+        {headerName: "ID", field: "reservation_id", sortable: true, filter: true, flex: 1.5},
+        {headerName: "Nom", field: "client_last_name", sortable: true, filter: true, flex: 2},
+        {headerName: "Prénom", field: "client_first_name", sortable: true, filter: true, flex: 2},
+        {headerName: "Chambre", field: "room_name", sortable: true, filter: true, flex: 1.5},
+        {headerName: "Arrivée", field: "arrival_date", sortable: true, filter: true, flex: 2},
+        {headerName: "Départ", field: "departure_date", sortable: true, filter: true, flex: 2},
+        {
+            headerName: "In",
+            field: "checked_in",
+            flex: 1,
+            sortable: true,
+            filter: true,
+            editable: true,
+            valueGetter: (params) => params.data.checked_in,
+            valueSetter: (params) => {
+                const newValue = params.newValue;
+                if (newValue !== params.data.checked_in) {
+                    params.data.checked_in = newValue;
+                    handleCheckInChange(params.data, newValue);
+                    return true;
+                }
+                return false;
+            },
+            cellRenderer: 'agCheckboxCellRenderer',
+            cellEditor: 'agCheckboxCellEditor',
+        },
+        {
+            headerName: "Out",
+            field: "checked_out",
+            flex: 1,
+            sortable: true,
+            filter: true,
+            editable: true,
+            valueGetter: (params) => params.data.checked_out,
+            valueSetter: (params) => {
+                const newValue = params.newValue;
+                if (newValue !== params.data.checked_out) {
+                    params.data.checked_out = newValue;
+                    handleCheckOutChange(params.data, newValue);
+                    return true;
+                }
+                return false;
+            },
+            cellRenderer: 'agCheckboxCellRenderer',
+            cellEditor: 'agCheckboxCellEditor',
+        },
+        {headerName: "Prix", field: "total_price", sortable: true, filter: true, flex: 1},
+        {headerName: "Payé", field: "is_paid", sortable: true, filter: true, flex: 1},
+    ];
 
-  const filterData = (range) => {
-    const today = new Date();
-    let filteredData;
 
-    switch (range) {
-      case "7jours":
-        filteredData = allBarChartData.filter((data) => {
-          const date = new Date(data.date.split("/").reverse().join("-"));
-          return (date - today) / (1000 * 3600 * 24) <= 7 && date >= today;
+    const colors = ["#044879", "#f7b200", "#2ebbce", "#025864", "#cb584e"];
+
+    const [barChartData, setBarChartData] = useState([]);
+    const [donutChartData, setDonutChartData] = useState({});
+    const [pieChartData, setPieChartData] = useState([]);
+    const [totalReservations, setTotalReservations] = useState(0);
+    const [clients, setClients] = useState([]);
+
+    const [selectedRange, setSelectedRange] = useState("7jours");
+    const [nbrDays, setNbrDays] = useState(7);
+
+    const transformBarChartData = (data) => {
+        const uniqueDates = [...new Set(data.map(entry => entry.date))];
+
+        return uniqueDates.map(date => {
+            const entriesForDate = data.filter(entry => entry.date === date);
+
+            const row = {date: new Date(date).toLocaleDateString()};
+            entriesForDate.forEach(entry => {
+                row[entry.partner_name] = parseInt(entry.count, 10);
+            });
+
+            const allPartners = ["Booking", "Expedia", "Hotel Beds", "Vinci Hotel", "AirBnb"];
+            allPartners.forEach(partner => {
+                if (!row[partner]) row[partner] = 0;
+            });
+
+            return row;
         });
-        break;
-      case "14jours":
-        filteredData = allBarChartData.filter((data) => {
-          const date = new Date(data.date.split("/").reverse().join("-"));
-          return (date - today) / (1000 * 3600 * 24) <= 14 && date >= today;
-        });
-        break;
-      case "31jours":
-        filteredData = allBarChartData.filter((data) => {
-          const date = new Date(data.date.split("/").reverse().join("-"));
-          return (date - today) / (1000 * 3600 * 24) <= 31 && date >= today;
-        });
-        break;
-      default:
-        filteredData = allBarChartData;
-    }
+    };
 
-    setBarChartData(filteredData);
-    setSelectedRange(range);
-  };
+    useEffect(() => {
+            const fetchData = async () => {
+                const reservations = await ReservationsAPI.getAll();
+                const stats = await ReservationsAPI.getStats();
+                const partnersStats = await ReservationsAPI.getPartnersStats(nbrDays);
 
-  return (
-      <div className="flex flex-col md:flex-row h-screen">
-        <div className="flex-grow p-4 md:p-8 bg-gray-100 overflow-y-auto">
-          <div className="">
-            <h1 className="text-3xl text-left mb-8 text-[#5A5555]">
-              Tableau de Bord - Réservations{" "}
-            </h1>
-          </div>
+                const reservationsData = reservations.map((reservation) => ({
+                    reservation_id: reservation.reservation_id,
+                    client_last_name: reservation.client_last_name,
+                    client_first_name: reservation.client_first_name,
+                    room_name: reservation.room_name,
+                    arrival_date: reservation.arrival_date.split("T")[0],
+                    departure_date: reservation.departure_date.split("T")[0],
+                    checked_in: Boolean(reservation.checked_in),
+                    checked_out: Boolean(reservation.checked_out),
+                    total_price: reservation.total_price + " €",
+                    is_paid: reservation.is_paid,
+                }));
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8 ">
-            <div
-                className="bg-white p-6 shadow-lg rounded-lg bg-lighBackground-image bg-no-repeat bg-cover ">
-              <h2 className="text-xl text-white font-sans font-medium mb-4">
-                Réservations
-              </h2>
-              <DonutChart
-                  data={donutChartData}
-                  title="Réservations"
-                  colors={colors}
-                  textColor={"#ffffff"}
-              />
-            </div>
+                const clients = reservations.map((reservation) => ({
+                    room_name: reservation.room_name,
+                    client_last_name: reservation.client_last_name,
+                    client_first_name: reservation.client_first_name,
+                    client_email: reservation.client_email,
+                    client_phone_number: reservation.client_phone_number,
+                }));
 
-            <div
-                className="col-span-1 lg:col-span-2 bg-white p-6 shadow-lg rounded-lg">
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex flex-wrap">
-                  <MdInsertChart size={45} color="#025864"/>
-                  <h2 className="text-2xl mt-1 ml-3 font-medium text-[#5A5555]">
-                    Prévisions des Réservations
-                  </h2>
+
+                const donutData = [];
+                if (stats.awaiting > 0) {
+                    donutData.push({asset: "En attente", amount: parseInt(stats.awaiting)});
+                }
+                if (stats.in_home > 0) {
+                    donutData.push({asset: "Séjour en cours", amount: parseInt(stats.in_home)});
+                }
+                if (stats.checked_out > 0) {
+                    donutData.push({asset: "Séjour terminé", amount: parseInt(stats.checked_out)});
+                }
+
+
+                const pieData = partnersStats.stats.map((stat) => ({
+                    asset: stat.partner_name,
+                    amount: parseInt(stat.total, 10),
+                }));
+
+                const barChartData = transformBarChartData(partnersStats.count);
+
+                const totalReservations = stats.total;
+
+                setRowData(reservationsData);
+                setDonutChartData(donutData);
+                setPieChartData(pieData);
+                setBarChartData(barChartData);
+                setTotalReservations(totalReservations);
+                setClients(clients);
+            }
+
+            fetchData();
+        }, [nbrDays]
+    );
+
+    const filterData = (range) => {
+        switch (range) {
+            case "+7jours":
+                setSelectedRange(range);
+                setNbrDays(7);
+                break;
+            case "+14jours":
+                setSelectedRange(range);
+                setNbrDays(14);
+                break;
+            case "-7jours":
+                setSelectedRange(range);
+                setNbrDays(-7);
+                break;
+            case "-14jours":
+                setSelectedRange(range);
+                setNbrDays(-14);
+                break;
+            default:
+                setSelectedRange("7jours");
+                setNbrDays(7);
+                break;
+        }
+    };
+
+    const getTitle = (nbrDays) => {
+        if (nbrDays > 0) {
+            return `Réservations des ${nbrDays} prochains jours`;
+        }
+        if (nbrDays < 0) {
+            return `Réservations des ${nbrDays * -1} derniers jours`;
+        }
+        return '';
+    };
+
+    return (
+        <div className="flex flex-col md:flex-row">
+            <div className="flex-grow p-4 md:p-8 bg-gray-100 overflow-y-auto">
+                <div className="">
+                    <h1 className="text-3xl text-left mb-8 text-[#5A5555]">
+                        Tableau de Bord - Réservations{" "}
+                    </h1>
                 </div>
-                <select
-                    value={selectedRange}
-                    onChange={(e) => filterData(e.target.value)}
-                    className="p-2 border rounded"
-                >
-                  <option value="7jours">7 prochains jours</option>
-                  <option value="14jours">14 prochains jours</option>
-                  <option value="31jours">31 prochains jours</option>
-                </select>
-              </div>
-              <BarChart
-                  data={barChartData}
-                  title="Prévisions de Réservations"
-                  xKey="date"
-                  yKey={[
-                    "Booking",
-                    "Expedia",
-                    "Hotel Beds",
-                    "Hotel Vinci",
-                    "Airbnb",
-                  ]}
-                  colors={colors}
-              />
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 ">
-            <div
-                className="col-span-1 lg:col-span-2 bg-white p-6 shadow-lg rounded-lg">
-              <h2 className="text-xl font-medium mb-4 text-[#5A5555]">
-                Liste des Réservations
-              </h2>
-              <div
-                  className="ag-theme-alpine"
-                  style={{height: 300, width: "100%"}}
-              >
-                <AgGridReact
-                    rowData={rowData}
-                    columnDefs={columnDefs}
-                    pagination={true}
-                />
-            </div>
-            </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8 ">
+                    <div
+                        className="bg-white p-6 shadow-lg rounded-lg bg-lighBackground-image bg-no-repeat bg-cover ">
+                        <h2 className="text-xl text-white font-sans font-medium mb-4">
+                            Réservations
+                        </h2>
+                        <DonutChart data={donutChartData} title={`Total : ${totalReservations}`} colors={colors}
+                                    textColor={"#ffffff"}/>
+                    </div>
 
-            <div className="bg-white p-6 shadow-lg rounded-lg">
-              <div className="flex flex-wrap">
-                <BsCalendar2CheckFill size={30} color="#025864"/>
-                <h2 className="text-2xl ml-3 font-medium text-[#5A5555] mb-4">
-                  Répartition des Statuts
-                </h2>
-              </div>
+                    <div
+                        className="col-span-1 lg:col-span-2 bg-white p-6 shadow-lg rounded-lg">
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex flex-wrap">
+                                <MdInsertChart size={45} color="#025864"/>
+                                <h2 className="text-2xl mt-1 ml-3 font-medium text-[#5A5555]">
+                                    Prévisions des Réservations
+                                </h2>
+                            </div>
+                            <select
+                                value={selectedRange}
+                                onChange={(e) => filterData(e.target.value)}
+                                className="p-2 border rounded"
+                            >
+                                <option value="+7jours">7 prochains jours</option>
+                                <option value="+14jours">14 prochains jours</option>
+                                <option value="-7jours">7 derniers jours</option>
+                                <option value="-14jours">14 derniers jours</option>
+                            </select>
+                        </div>
+                        <BarChart
+                            data={barChartData}
+                            title=""
+                            xKey="date"
+                            yKey={[
+                                "Booking",
+                                "Expedia",
+                                "Hotel Beds",
+                                "Vinci Hotel",
+                                "AirBnb",
+                            ]}
+                            colors={colors}
+                        />
+                    </div>
+                </div>
 
-              <PieChart
-                  data={pieChartData}
-                  title="Statuts des Réservations"
-                  colors={colors}
-                  width={400}
-                  height={300}
-              />
+                <div className="grid grid-cols-1 lg:grid-cols-1 gap-4 ">
+                    <div
+                        className="col-span-1 lg:col-span-2 bg-white p-6 shadow-lg rounded-lg">
+                        <h2 className="text-xl font-medium mb-4 text-[#5A5555]">
+                            Liste des Réservations
+                        </h2>
+                        <div
+                            className="ag-theme-alpine"
+                            style={{height: 520, width: "100%"}}
+                        >
+                            <AgGridReact
+                                rowData={rowData}
+                                columnDefs={columnDefs}
+                                pagination={true}
+                                paginationPageSize={10}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        {/* Left: Pie Chart */}
+                        <div className="bg-white p-6 shadow-lg rounded-lg"
+                             style={{display: 'flex', flexDirection: 'column'}}>
+                            <div className="flex flex-wrap items-center mb-4">
+                                <BsCalendar2CheckFill size={30} color="#025864"/>
+                                <h2 className="text-2xl ml-3 font-medium text-[#5A5555]">
+                                    Répartition par partenaire
+                                </h2>
+                            </div>
+                            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1}}>
+                                <PieChart
+                                    data={pieChartData}
+                                    title={getTitle(nbrDays)}
+                                    colors={colors}
+                                    width={600}
+                                    height={400}
+                                    titleColor={"#025864"}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Right: Client Grid */}
+                        <div className="bg-white p-6 shadow-lg rounded-lg">
+                            <h2 className="text-xl font-medium mb-4 text-[#5A5555]">
+                                Liste des clients
+                            </h2>
+                            <div
+                                className="ag-theme-alpine"
+                                style={{height: 520, width: "100%"}}
+                            >
+                                <AgGridReact
+                                    rowData={clients}
+                                    columnDefs={[
+                                        {
+                                            headerName: "Chambre",
+                                            field: "room_name",
+                                            sortable: true,
+                                            filter: true,
+                                            flex: 1
+                                        },
+                                        {
+                                            headerName: "Nom",
+                                            field: "client_last_name",
+                                            sortable: true,
+                                            filter: true,
+                                            flex: 1.5
+                                        },
+                                        {
+                                            headerName: "Prénom",
+                                            field: "client_first_name",
+                                            sortable: true,
+                                            filter: true,
+                                            flex: 1.5
+                                        },
+                                        {
+                                            headerName: "Email",
+                                            field: "client_email",
+                                            sortable: true,
+                                            filter: true,
+                                            flex: 2
+                                        },
+                                        {
+                                            headerName: "Téléphone",
+                                            field: "client_phone_number",
+                                            sortable: true,
+                                            filter: true,
+                                            flex: 1.5,
+                                        },
+                                    ]}
+                                    pagination={true}
+                                    paginationPageSize={10}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-  );
+    );
 }

@@ -11,3 +11,9 @@ GET {{baseUrl}}/partners/stats/7
 
 ### Get reservations history
 GET {{baseUrl}}/partners/stats/-7
+
+### Check-in reservation
+POST {{baseUrl}}/1/check-in
+
+### Check-out reservation
+POST {{baseUrl}}/1/check-out

@@ -138,4 +138,22 @@ async function getReservationsHistory(nbrDays) {
     }
 }
 
-module.exports = {getAllReservations, getTodayReservationsStats, getReservationsPrediction, getReservationsHistory};
+async function updateReservation(id, updates) {
+    try {
+        const {rows} = await client.query(`UPDATE project.reservations
+                                           SET ${Object.keys(updates).map((key, index) => `${key} = $${index + 1}`).join(', ')}
+                                           WHERE reservation_id = $${Object.keys(updates).length + 1}
+                                           RETURNING *;`, [...Object.values(updates), id]);
+        return rows[0];
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = {
+    getAllReservations,
+    getTodayReservationsStats,
+    getReservationsPrediction,
+    getReservationsHistory,
+    updateReservation,
+};

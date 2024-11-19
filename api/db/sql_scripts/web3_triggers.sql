@@ -38,19 +38,32 @@ BEGIN
                                   WHERE name = 'Occupied')
             WHERE room_id = NEW.room;
 
-        ELSIF NEW.checked_in AND NEW.checked_out THEN
+        ELSIF OLD.checked_in AND NEW.checked_out THEN
             UPDATE project.rooms
             SET current_status = (SELECT room_status_id
                                   FROM project.room_statuses
                                   WHERE name = 'Cleaning')
             WHERE room_id = NEW.room;
 
-        ELSE
-            UPDATE project.rooms
-            SET current_status = (SELECT room_status_id
-                                  FROM project.room_statuses
-                                  WHERE name = 'Reserved')
-            WHERE room_id = NEW.room;
+        ELSIF NOT NEW.checked_in AND NOT NEW.checked_out THEN
+            IF EXISTS (SELECT 1
+                       FROM project.reservations
+                       WHERE room = NEW.room
+                         AND CURRENT_DATE BETWEEN arrival_date AND departure_date
+                         AND checked_in = FALSE
+                         AND checked_out = FALSE) THEN
+                UPDATE project.rooms
+                SET current_status = (SELECT room_status_id
+                                      FROM project.room_statuses
+                                      WHERE name = 'Reserved')
+                WHERE room_id = NEW.room;
+            ELSE
+                UPDATE project.rooms
+                SET current_status = (SELECT room_status_id
+                                      FROM project.room_statuses
+                                      WHERE name = 'Available')
+                WHERE room_id = NEW.room;
+            END IF;
         END IF;
     END IF;
 
@@ -84,10 +97,6 @@ BEGIN
     WHERE room_status_id = OLD.current_status;
 
     IF new_status = 'Available' THEN
-        IF old_status != 'Cleaning' AND
-           old_status != 'Repairing' THEN
-            RAISE EXCEPTION 'Room status cannot be changed to ''Available'' from ''%''', old_status;
-        END IF;
         IF EXISTS (SELECT 1
                    FROM project.reservations
                    WHERE room = NEW.room_id
@@ -102,17 +111,6 @@ BEGIN
             RETURN NULL;
         ELSE
             RETURN NEW;
-        END IF;
-
-    ELSIF new_status = 'Occupied' THEN
-        IF old_status != 'Reserved' AND old_status != 'Available' THEN
-            RAISE EXCEPTION 'Room status cannot be changed to ''Occupied'' from ''%''', old_status;
-        END IF;
-
-    ELSIF new_status = 'Cleaning' OR
-          new_status = 'Repairing' THEN
-        IF old_status != 'Occupied' THEN
-            RAISE EXCEPTION 'Room status cannot be changed to ''%'' from ''%''', new_status, old_status;
         END IF;
     END IF;
     RETURN NEW;

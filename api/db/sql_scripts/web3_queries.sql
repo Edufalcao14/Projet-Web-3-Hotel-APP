@@ -159,13 +159,13 @@ SELECT departure_date                                                         AS
        SUM(CASE WHEN payment_type_name != 'Cash' THEN total_price ELSE 0 END) AS card_revenue,
        SUM(CASE WHEN payment_type_name = 'Cash' THEN total_price ELSE 0 END)  AS cash_revenue
 FROM project.reservations_grouped_vw
-WHERE (departure_date BETWEEN CURRENT_DATE - INTERVAL '${interval}' AND CURRENT_DATE)
+WHERE (departure_date BETWEEN CURRENT_DATE - INTERVAL '30 days' AND CURRENT_DATE)
   AND is_paid = TRUE
 GROUP BY departure_date
 ORDER BY departure_date;
 
 -- Month revenue by room type
-SELECT rt.name as room_type, SUM(r.total_price) AS revenue, COUNT(r.reservation_id) AS count
+SELECT rt.name AS room_type, SUM(r.total_price) AS revenue, COUNT(r.reservation_id) AS count
 FROM project.room_types rt
          LEFT OUTER JOIN project.reservations_grouped_vw r ON rt.name = r.room_type
 WHERE (DATE_PART('month', r.departure_date) = 11 AND DATE_PART('year', r.departure_date) = 2024)
@@ -197,16 +197,16 @@ GROUP BY service;
 -- Services revenue by month
 WITH nbr_services AS (SELECT service_id, COUNT(reservation_id) AS count
                       FROM project.reservations_vw
-                      WHERE date_part('month', arrival_date) = 11
-                        AND date_part('year', arrival_date) = 2024
+                      WHERE DATE_PART('month', arrival_date) = 11
+                        AND DATE_PART('year', arrival_date) = 2024
                         AND is_paid = TRUE
                       GROUP BY service_id)
 SELECT service_name AS service, SUM(n.count * s.price * (departure_date - arrival_date)) AS revenue
 FROM project.reservations_vw r
          INNER JOIN project.services s ON r.service_id = s.service_id
          INNER JOIN nbr_services n ON n.service_id = r.service_id
-WHERE date_part('month', arrival_date) = 11
-  AND date_part('year', arrival_date) = 2024
+WHERE DATE_PART('month', arrival_date) = 11
+  AND DATE_PART('year', arrival_date) = 2024
   AND is_paid = TRUE
 GROUP BY service;
 

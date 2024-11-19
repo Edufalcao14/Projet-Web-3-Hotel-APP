@@ -12,8 +12,99 @@ import {BsCalendar2CheckFill} from "react-icons/bs";
 import PieChart from "../../components/Piechart";
 
 export default function ReservationsPage() {
+    const colors = ["#044879", "#f7b200", "#2ebbce", "#025864", "#cb584e"];
 
+    const [barChartData, setBarChartData] = useState([]);
+    const [donutChartData, setDonutChartData] = useState({});
+    const [pieChartData, setPieChartData] = useState([]);
+    const [totalReservations, setTotalReservations] = useState(0);
+    const [clients, setClients] = useState([]);
+
+    const [nbrDays, setNbrDays] = useState(7);
     const [rowData, setRowData] = useState([]);
+
+    const [selectedRange, setSelectedRange] = useState("7jours");
+
+    const transformBarChartData = (data) => {
+        const uniqueDates = [...new Set(data.map(entry => entry.date))];
+
+        return uniqueDates.map(date => {
+            const entriesForDate = data.filter(entry => entry.date === date);
+
+            const row = {date: new Date(date).toLocaleDateString()};
+            entriesForDate.forEach(entry => {
+                row[entry.partner_name] = parseInt(entry.count, 10);
+            });
+
+            const allPartners = ["Booking", "Expedia", "Hotel Beds", "Vinci Hotel", "AirBnb"];
+            allPartners.forEach(partner => {
+                if (!row[partner]) row[partner] = 0;
+            });
+
+            return row;
+        });
+    };
+
+    const fetchData = async () => {
+        const reservations = await ReservationsAPI.getAll();
+        const stats = await ReservationsAPI.getStats();
+        const partnersStats = await ReservationsAPI.getPartnersStats(nbrDays);
+
+        const reservationsData = reservations.map((reservation) => ({
+            reservation_id: reservation.reservation_id,
+            client_last_name: reservation.client_last_name,
+            client_first_name: reservation.client_first_name,
+            room_name: reservation.room_name,
+            arrival_date: reservation.arrival_date.split("T")[0],
+            departure_date: reservation.departure_date.split("T")[0],
+            checked_in: Boolean(reservation.checked_in),
+            checked_out: Boolean(reservation.checked_out),
+            total_price: reservation.total_price + " €",
+            is_paid: reservation.is_paid,
+        }));
+
+        const clients = reservations.map((reservation) => ({
+            room_name: reservation.room_name,
+            client_last_name: reservation.client_last_name,
+            client_first_name: reservation.client_first_name,
+            client_email: reservation.client_email,
+            client_phone_number: reservation.client_phone_number,
+        }));
+
+
+        const donutData = [];
+        if (stats.awaiting > 0) {
+            donutData.push({asset: "En attente", amount: parseInt(stats.awaiting)});
+        }
+        if (stats.in_home > 0) {
+            donutData.push({asset: "Séjour en cours", amount: parseInt(stats.in_home)});
+        }
+        if (stats.checked_out > 0) {
+            donutData.push({asset: "Séjour terminé", amount: parseInt(stats.checked_out)});
+        }
+
+
+        const pieData = partnersStats.stats.map((stat) => ({
+            asset: stat.partner_name,
+            amount: parseInt(stat.total, 10),
+        }));
+
+        const barChartData = transformBarChartData(partnersStats.count);
+
+        const totalReservations = stats.total;
+
+        setRowData(reservationsData);
+        setDonutChartData(donutData);
+        setPieChartData(pieData);
+        setBarChartData(barChartData);
+        setTotalReservations(totalReservations);
+        setClients(clients);
+    };
+
+    useEffect(() => {
+            fetchData();
+        }, [nbrDays]
+    );
 
     const handleCheckInChange = async (reservation, newValue) => {
         try {
@@ -27,6 +118,9 @@ export default function ReservationsPage() {
                         : item
                 );
             });
+            useEffect(() => {
+                fetchData();
+            }, []);
         } catch (error) {
             console.error("Error during check-in API call:", error);
         }
@@ -44,6 +138,9 @@ export default function ReservationsPage() {
                         : item
                 );
             });
+            useEffect(() => {
+                fetchData();
+            }, []);
         } catch (error) {
             console.error("Error during check-out API call:", error);
         }
@@ -99,99 +196,6 @@ export default function ReservationsPage() {
         {headerName: "Prix", field: "total_price", sortable: true, filter: true, flex: 1},
         {headerName: "Payé", field: "is_paid", sortable: true, filter: true, flex: 1},
     ];
-
-
-    const colors = ["#044879", "#f7b200", "#2ebbce", "#025864", "#cb584e"];
-
-    const [barChartData, setBarChartData] = useState([]);
-    const [donutChartData, setDonutChartData] = useState({});
-    const [pieChartData, setPieChartData] = useState([]);
-    const [totalReservations, setTotalReservations] = useState(0);
-    const [clients, setClients] = useState([]);
-
-    const [selectedRange, setSelectedRange] = useState("7jours");
-    const [nbrDays, setNbrDays] = useState(7);
-
-    const transformBarChartData = (data) => {
-        const uniqueDates = [...new Set(data.map(entry => entry.date))];
-
-        return uniqueDates.map(date => {
-            const entriesForDate = data.filter(entry => entry.date === date);
-
-            const row = {date: new Date(date).toLocaleDateString()};
-            entriesForDate.forEach(entry => {
-                row[entry.partner_name] = parseInt(entry.count, 10);
-            });
-
-            const allPartners = ["Booking", "Expedia", "Hotel Beds", "Vinci Hotel", "AirBnb"];
-            allPartners.forEach(partner => {
-                if (!row[partner]) row[partner] = 0;
-            });
-
-            return row;
-        });
-    };
-
-    useEffect(() => {
-            const fetchData = async () => {
-                const reservations = await ReservationsAPI.getAll();
-                const stats = await ReservationsAPI.getStats();
-                const partnersStats = await ReservationsAPI.getPartnersStats(nbrDays);
-
-                const reservationsData = reservations.map((reservation) => ({
-                    reservation_id: reservation.reservation_id,
-                    client_last_name: reservation.client_last_name,
-                    client_first_name: reservation.client_first_name,
-                    room_name: reservation.room_name,
-                    arrival_date: reservation.arrival_date.split("T")[0],
-                    departure_date: reservation.departure_date.split("T")[0],
-                    checked_in: Boolean(reservation.checked_in),
-                    checked_out: Boolean(reservation.checked_out),
-                    total_price: reservation.total_price + " €",
-                    is_paid: reservation.is_paid,
-                }));
-
-                const clients = reservations.map((reservation) => ({
-                    room_name: reservation.room_name,
-                    client_last_name: reservation.client_last_name,
-                    client_first_name: reservation.client_first_name,
-                    client_email: reservation.client_email,
-                    client_phone_number: reservation.client_phone_number,
-                }));
-
-
-                const donutData = [];
-                if (stats.awaiting > 0) {
-                    donutData.push({asset: "En attente", amount: parseInt(stats.awaiting)});
-                }
-                if (stats.in_home > 0) {
-                    donutData.push({asset: "Séjour en cours", amount: parseInt(stats.in_home)});
-                }
-                if (stats.checked_out > 0) {
-                    donutData.push({asset: "Séjour terminé", amount: parseInt(stats.checked_out)});
-                }
-
-
-                const pieData = partnersStats.stats.map((stat) => ({
-                    asset: stat.partner_name,
-                    amount: parseInt(stat.total, 10),
-                }));
-
-                const barChartData = transformBarChartData(partnersStats.count);
-
-                const totalReservations = stats.total;
-
-                setRowData(reservationsData);
-                setDonutChartData(donutData);
-                setPieChartData(pieData);
-                setBarChartData(barChartData);
-                setTotalReservations(totalReservations);
-                setClients(clients);
-            }
-
-            fetchData();
-        }, [nbrDays]
-    );
 
     const filterData = (range) => {
         switch (range) {

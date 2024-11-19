@@ -11,9 +11,6 @@ def generate_dates(date_range):
     max_date = datetime.strptime(max_date_str, date_format)
 
     start_date = min_date + timedelta(days=random.randint(0, (max_date - min_date).days))
-    end_date = start_date + timedelta(days=random.randint(1, 10))
-
-    if end_date > max_date:
-        end_date = max_date
+    end_date = min(start_date + timedelta(days=random.randint(1, 10)), max_date)
 
     return start_date, end_date

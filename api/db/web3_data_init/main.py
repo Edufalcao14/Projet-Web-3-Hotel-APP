@@ -6,11 +6,11 @@ from date_generator import generate_dates, date_format
 from validator import validate_data, reservation_pool
 from services import choose_services, calculate_total_services_price
 
-NUMBER_OF_RESERVATIONS = 1000000
+NUMBER_OF_RESERVATIONS = 10000000
 NUMBER_OF_CLIENTS = 40
 DATE_INTERVAL = (
-    datetime.today().strftime(date_format),
-    "2024-12-31"
+    "2021-06-24",
+    "2025-07-31"
 )
 
 clients = list(range(1, NUMBER_OF_CLIENTS + 1))
@@ -50,8 +50,6 @@ for _ in range(NUMBER_OF_RESERVATIONS):
     client = random.choice(clients)
     room = random.choice(list(room_prices.keys()))  # Randomly select a room ID
     arrival_date, departure_date = generate_dates(DATE_INTERVAL)
-    checked_in = False
-    checked_out = False
 
     room_price = room_prices[room] * (departure_date - arrival_date).days
 
@@ -60,7 +58,24 @@ for _ in range(NUMBER_OF_RESERVATIONS):
 
     total_price = room_price + service_total
 
-    is_paid = random.choice([True, False])
+    is_paid = False
+
+    checked_in = False
+    checked_out = False
+
+    if arrival_date.month == 11 or (arrival_date.month == 12 and arrival_date.day < 6):
+        is_paid = random.choice([True, False])
+
+    elif arrival_date.month < 11:
+        is_paid = True
+    else:
+        is_paid = False
+
+    if arrival_date <= datetime.now():
+        checked_in = True
+    if departure_date <= datetime.now():
+        checked_out = True
+
     payment_type = random.choice(payment_types) if is_paid else "NULL"
     partner = random.choice(partners)
 
@@ -77,5 +92,8 @@ for _ in range(NUMBER_OF_RESERVATIONS):
         for service in selected_services:
             query_services += f"\n({service['id']}, {last_reservation}),"
 
-print(query_reservations)
-print("\n" + query_services)
+with open('queries.txt', 'w') as file:
+    file.write(query_reservations)
+    file.write("\n" + query_services)
+
+print("End of the script.")

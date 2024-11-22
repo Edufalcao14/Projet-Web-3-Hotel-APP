@@ -1,8 +1,8 @@
-# projet-web3 : [AG Chart](https://www.ag-grid.com/charts/) , [AG Grids](https://www.ag-grid.com/) et [Tailwindcss](https://tailwindcss.com/)  (Groupe 9)
+# Projet-web3 : [AG Chart](https://www.ag-grid.com/charts/) , [AG Grids](https://www.ag-grid.com/) et [Tailwindcss](https://tailwindcss.com/)  (Groupe 9)
 
 ## Application de gestion d'hôtel avec [AG Chart](https://www.ag-grid.com/charts/) , [AG Grids](https://www.ag-grid.com/) et [Tailwindcss](https://tailwindcss.com/)
 
-#### Membres
+### Membres
 
 - Sampaio Falcao Eduardo
 - Simonis Tom
@@ -10,13 +10,12 @@
 - Demir Ahmet Kusay 
 - Koubai Omar 
 
----
 
 ## Objectif
 
-Vinci Hotel Manager est une application BI conçu pour explorer et démontrer les capacités maximales de [AG Chart](https://www.ag-grid.com/charts/) et [AG Grids](https://www.ag-grid.com/) en utilisant une base de données avec + de 12 000 données pour generer nos graphiques et tableaux des données en gardent toujours une site web rapide , efficaces et dynamique. 
+Vinci Hotel Manager est une application BI conçue pour explorer et démontrer les capacités maximales de [AG Chart](https://www.ag-grid.com/charts/) et [AG Grids](https://www.ag-grid.com/) en utilisant une base de données contenant plus de 12 000 données pour générer nos graphiques et tableaux tout en maintenant un site web rapide, efficace et dynamique. 
 
-Le frontend à etait conçu pour explorer les capacités de [Tailwindcss](https://tailwindcss.com/) pour construire une interface très moderne , dynamique , belle et responsive .
+Le frontend a été conçu pour explorer les capacités de [Tailwindcss](https://tailwindcss.com/) afin de construire une interface moderne, dynamique, esthétique et responsive.
 
 
 ## Guide d'installation
@@ -50,7 +49,7 @@ npm i
 npm start
 
 ```
-5.Ensuite, accédez au répertoire fronted : Vinci-Hotel avec la commande suivante :
+5. Ensuite, accédez au répertoire fronted : Vinci-Hotel avec la commande suivante :
    
 ```bash
 cd ..
@@ -73,7 +72,7 @@ npm run dev
 ```
 
 
-8. Lancer le serveur sur le navigateur (de préférence [Chrome](https://www.google.com/chrome/) ou [Firefox](https://www.mozilla.org/en-US/firefox/new/)) via : http://localhost:3000.
+8. Lancer le serveur sur le navigateur (de préférence [Chrome](https://www.google.com/chrome/) ou [Firefox](https://www.mozilla.org/en-US/firefox/new/) via : http://localhost:3000.
 
 ## Architecture de l'application
 
@@ -83,9 +82,9 @@ npm run dev
 
  **Notre API utilise une architecture MVC (Model-View-Controller)**
 
-**db/** : Contient les fichiers init SQL ( [PostgresSQL](https://www.postgresql.org/l) ) utilisés pour generer nos base de donnée.
+**db/** : Contient les fichiers d'initialisation SQL ( [PostgresSQL](https://www.postgresql.org/l) ) utilisés pour générer notre base de données.
 
-**models/** : Contient les fichiers [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) pour la gestion des données et des opérations _CRUD_ (_Create, Read, Update, Delete_) sur les tâches et les listes.
+**models/** : Contient les fichiers [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) pour la gestion des données et des opérations CRUD (Create, Read, Update, Delete) sur notre base de données.
 
 **routes/** : Contient les fichiers [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) pour la gestion des routes de l'application.
 

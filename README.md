@@ -120,7 +120,7 @@ public/ : Contient toutes les images et icons directement dans l'application.
   
 ## Frontend : 
 
-- [Next.js](https://nodejs.org/docs/latest/api/) : Framework utilisé .
+- [Next.js](https://nextjs.org/) : Framework utilisé .
 - [Express](https://expressjs.com) :  Pour la structure de l'API et la gestion des routes.
 - [Python](https://www.python.org/) : Utilisé pour le genérer des données pour notre base de données.
 - [PostgresSQL](https://www.json.org/json-en.html) : Base de données pour stocker nos données.

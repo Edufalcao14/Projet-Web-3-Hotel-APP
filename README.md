@@ -1,4 +1,7 @@
-# Projet-web3 : [AG Chart](https://www.ag-grid.com/charts/) , [AG Grids](https://www.ag-grid.com/) et [Tailwindcss](https://tailwindcss.com/)  (Groupe 9)
+
+# [AG Chart](https://www.ag-grid.com/charts/) , [AG Grids](https://www.ag-grid.com/) et [Tailwindcss](https://tailwindcss.com/)
+
+### Groupe ( 09 ) 
 
 ## Application de gestion d'hôtel avec [AG Chart](https://www.ag-grid.com/charts/) , [AG Grids](https://www.ag-grid.com/) et [Tailwindcss](https://tailwindcss.com/)
 
@@ -119,14 +122,12 @@ public/ : Contient toutes les images et icons directement dans l'application.
   
 ## Frontend : 
 
-- [Next.js](https://nextjs.org/) : Framework utilisé .
-- [Express](https://expressjs.com) :  Pour la structure de l'API et la gestion des routes.
-- [Python](https://www.python.org/) : Utilisé pour le genérer des données pour notre base de données.
-- [PostgresSQL](https://www.json.org/json-en.html) : Base de données pour stocker nos données.
+- [Next.js](https://nextjs.org/) : Pour la gestion des pages frontend, la gestion des routes, ainsi que pour la génération des pages JavaScript et HTML. Permet de créer l'applications web en offrant des fonctionnalités comme le rendu côté serveur (SSR), la génération de pages statiques (SSG), et la gestion automatique des routes basée sur le système de fichiers.
 
 ## Outils et bibliothèques
 
-- [AG Chart](https://www.ag-grid.com/charts/)  : Pour generer les graphiques de façon dynamique .
-- [AG Grids](https://www.ag-grid.com/) :  Pour generer avec nos données des tableaux
-- [Tailwindcss](https://tailwindcss.com/) :  Pour le style du frontend
+- [AG Chart](https://www.ag-grid.com/charts/)  : Utilisé pour générer des graphiques dynamiques et interactifs.
+- [AG Grids](https://www.ag-grid.com/) :  Utilisé pour générer des tableaux interactifs à partir de données.
+- [Tailwindcss](https://tailwindcss.com/) : Framework CSS utilitaire permettant de styliser rapidement le frontend.
+- [React](https://react.dev/) : Permet de construire des composants réutilisables et gère leur état à l'aide du "Virtual DOM".
 - [npm](https://docs.npmjs.com) : Gestionnaire de paquets pour [Node.js](https://nodejs.org/fr).

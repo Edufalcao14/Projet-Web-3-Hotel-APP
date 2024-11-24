@@ -1,5 +1,5 @@
 
-# [AG Chart](https://www.ag-grid.com/charts/) , [AG Grids](https://www.ag-grid.com/) et [Tailwindcss](https://tailwindcss.com/)
+# [AG Chart](https://www.ag-grid.com/charts/) , [AG Grid](https://www.ag-grid.com/) et [Tailwindcss](https://tailwindcss.com/)
 
 ### Groupe ( 09 ) 
 
@@ -16,7 +16,7 @@
 
 ## Objectif
 
-Vinci Hotel Manager est une application BI conçue pour explorer et démontrer les capacités maximales de [AG Chart](https://www.ag-grid.com/charts/) et [AG Grids](https://www.ag-grid.com/) en utilisant une base de données contenant plus de 12 000 données pour générer nos graphiques et tableaux tout en maintenant un site web rapide, efficace et dynamique. 
+Vinci Hotel Manager est une application BI conçue pour explorer et démontrer les capacités maximales de [AG Chart](https://www.ag-grid.com/charts/) et [AG Grid](https://www.ag-grid.com/) en utilisant une base de données contenant plus de 12 000 données pour générer nos graphiques et tableaux tout en maintenant un site web rapide, efficace et dynamique. 
 
 Le frontend a été conçu pour explorer les capacités de [Tailwindcss](https://tailwindcss.com/) afin de construire une interface moderne, dynamique, esthétique et responsive.
 
@@ -126,7 +126,7 @@ public/ : Contient toutes les images et icons directement dans l'application.
 ## Outils et bibliothèques
 
 - [AG Chart](https://www.ag-grid.com/charts/)  : Utilisé pour générer des graphiques dynamiques et interactifs.
-- [AG Grids](https://www.ag-grid.com/) :  Utilisé pour générer des tableaux interactifs à partir de données.
+- [AG Grid](https://www.ag-grid.com/) :  Utilisé pour générer des tableaux interactifs à partir de données.
 - [Tailwindcss](https://tailwindcss.com/) : Framework CSS utilitaire permettant de styliser rapidement le frontend.
 - [React](https://react.dev/) : Permet de construire des composants réutilisables et gère leur état à l'aide du "Virtual DOM".
 - [npm](https://docs.npmjs.com) : Gestionnaire de paquets pour [Node.js](https://nodejs.org/fr).
